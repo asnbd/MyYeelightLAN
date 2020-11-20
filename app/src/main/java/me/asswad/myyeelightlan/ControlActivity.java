@@ -100,7 +100,7 @@ public class ControlActivity extends AppCompatActivity {
         mCTValue = (TextView) findViewById(R.id.ct_value);
 
         mCT.setMax(4800);
-        mColor.setMax(360);
+        mColor.setMax(359);
         mBrightness.setMax(99);
 
 
