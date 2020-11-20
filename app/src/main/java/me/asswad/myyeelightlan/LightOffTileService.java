@@ -18,7 +18,7 @@ public class LightOffTileService extends TileService {
         Tile tile = getQsTile();
         tile.setIcon(Icon.createWithResource(this, R.drawable.ic_launcher_foreground));
         tile.setLabel("Light Off");
-        tile.setContentDescription("Turn On Yeelight");
+        tile.setContentDescription("Turn Off Yeelight");
         tile.updateTile();
     }
 
