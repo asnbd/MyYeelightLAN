@@ -32,7 +32,7 @@
 
         <service
             android:name=".LightTileService"
-            android:icon="@drawable/ic_launcher_foreground"
+            android:icon="@drawable/ic_light_bulb_on"
             android:label="Light On"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
             tools:ignore="Instantiatable">
@@ -44,7 +44,7 @@
 
         <service
             android:name=".LightOffTileService"
-            android:icon="@drawable/ic_launcher_foreground"
+            android:icon="@drawable/ic_light_bulb_off"
             android:label="Light Off"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
             tools:ignore="Instantiatable">

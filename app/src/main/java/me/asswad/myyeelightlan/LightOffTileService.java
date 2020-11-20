@@ -16,7 +16,7 @@ public class LightOffTileService extends TileService {
     @Override
     public void onStartListening() {
         Tile tile = getQsTile();
-        tile.setIcon(Icon.createWithResource(this, R.drawable.ic_launcher_foreground));
+        tile.setIcon(Icon.createWithResource(this, R.drawable.ic_light_bulb_off));
         tile.setLabel("Light Off");
         tile.setContentDescription("Turn Off Yeelight");
         tile.updateTile();
