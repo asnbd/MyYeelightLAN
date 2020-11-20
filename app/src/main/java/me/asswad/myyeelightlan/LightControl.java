@@ -14,11 +14,13 @@ public class LightControl {
     private int mBulbPort = 55443;
     private BufferedOutputStream mBos;
 
-    private static final int ACTION_TURN_ON = 1;
     private static final int ACTION_TURN_OFF = 0;
+    private static final int ACTION_TURN_ON = 1;
+    private static final int ACTION_TOGGLE = 2;
 
     private static final String CMD_ON = "{\"id\":%id,\"method\":\"set_power\",\"params\":[\"on\",\"smooth\",500]}\r\n" ;
     private static final String CMD_OFF = "{\"id\":%id,\"method\":\"set_power\",\"params\":[\"off\",\"smooth\",500]}\r\n" ;
+    private static final String CMD_TOGGLE = "{\"id\":%id,\"method\":\"toggle\",\"params\":[]}\r\n" ;
 
     public void turnOn(){
         connect(ACTION_TURN_ON);
@@ -27,6 +29,11 @@ public class LightControl {
     public void turnOff(){
         connect(ACTION_TURN_OFF);
     }
+
+    public void toggle(){
+        connect(ACTION_TOGGLE);
+    }
+
 
     private void connect(int action){
         new Thread(new Runnable() {
@@ -59,6 +66,10 @@ public class LightControl {
             case ACTION_TURN_ON:
                 Log.d(TAG, "handleAction: Sending Turn On Command");
                 sendCommand(parseCmd(CMD_ON));
+                break;
+            case ACTION_TOGGLE:
+                Log.d(TAG, "handleAction: Sending Toggle Command");
+                sendCommand(parseCmd(CMD_TOGGLE));
                 break;
         }
     }
