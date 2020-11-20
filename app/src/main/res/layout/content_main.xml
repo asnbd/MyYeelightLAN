@@ -10,15 +10,24 @@
         android:layout_height="wrap_content"
         android:text="Search"
         />
+
     <TextView
         android:id="@+id/infotext"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Welcome to yeelight demo!" />
+        android:text="Welcome to My Yeelight LAN Controller!"
+        android:gravity="center"/>
 
     <ListView
         android:id="@+id/deviceList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Created by Nomaan"
+        android:gravity="center"/>
 
 </LinearLayout>
