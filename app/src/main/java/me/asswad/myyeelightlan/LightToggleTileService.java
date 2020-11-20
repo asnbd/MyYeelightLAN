@@ -16,7 +16,7 @@ public class LightToggleTileService extends TileService {
     @Override
     public void onStartListening() {
         Tile tile = getQsTile();
-        tile.setIcon(Icon.createWithResource(this, R.drawable.ic_light_bulb_on));
+        tile.setIcon(Icon.createWithResource(this, R.drawable.ic_light_bulb_toggle));
         tile.setLabel("Light On/Off");
         tile.setContentDescription("Turn On/Off Yeelight");
         tile.updateTile();
