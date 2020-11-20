@@ -96,7 +96,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Color"/>
+                android:text="Hue"/>
 
             <Space
                 android:layout_width="0dp"
@@ -104,7 +104,7 @@
                 android:layout_weight="1" />
 
             <TextView
-                android:id="@+id/color_value"
+                android:id="@+id/hue_value"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:gravity="right"
@@ -112,7 +112,7 @@
         </LinearLayout>
 
         <SeekBar
-            android:id="@+id/color"
+            android:id="@+id/hue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
