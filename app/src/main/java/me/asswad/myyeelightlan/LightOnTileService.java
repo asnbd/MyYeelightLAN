@@ -8,8 +8,9 @@ import android.service.quicksettings.TileService;
 import androidx.annotation.RequiresApi;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
-public class LightTileService extends TileService {
-    private String TAG = "TileService";
+public class LightOnTileService extends TileService {
+
+    private String TAG = "LightOnTileService";
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -28,4 +29,5 @@ public class LightTileService extends TileService {
 
         new LightControl().turnOn();
     }
+
 }

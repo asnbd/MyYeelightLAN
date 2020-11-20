@@ -31,7 +31,7 @@
         </activity>
 
         <service
-            android:name=".LightTileService"
+            android:name=".LightOnTileService"
             android:icon="@drawable/ic_light_bulb_on"
             android:label="Light On"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
