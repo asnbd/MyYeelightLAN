@@ -31,9 +31,10 @@
 
             <TextView
                 android:id="@+id/brightness_value"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:text="0"
+                android:gravity="right"
+                android:text="1"
                 />
         </LinearLayout>
 
@@ -41,7 +42,6 @@
             android:id="@+id/brightness"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:layout_marginTop="10dp"
             android:layout_weight="1" />
     </LinearLayout>
@@ -69,9 +69,10 @@
 
             <TextView
                 android:id="@+id/ct_value"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:text="0" />
+                android:gravity="right"
+                android:text="1700" />
         </LinearLayout>
 
         <SeekBar
@@ -85,7 +86,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
         android:orientation="vertical"
         android:layout_marginBottom="20dp">
         <LinearLayout
@@ -105,8 +105,9 @@
 
             <TextView
                 android:id="@+id/color_value"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
+                android:gravity="right"
                 android:text="0" />
         </LinearLayout>
 
