@@ -46,6 +46,7 @@ public class ControlActivity extends AppCompatActivity {
     private Button mBtnMusic;
     private BufferedOutputStream mBos;
     private BufferedReader mReader;
+
     private Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -79,9 +80,11 @@ public class ControlActivity extends AppCompatActivity {
         mProgressDialog.setMessage("Connecting...");
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
+
         mBrightness = (SeekBar) findViewById(R.id.brightness);
         mColor = (SeekBar) findViewById(R.id.color);
         mCT = (SeekBar) findViewById(R.id.ct);
+
         mCT.setMax(4800);
         mColor.setMax(360);
         mBrightness.setMax(100);
@@ -116,6 +119,7 @@ public class ControlActivity extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 write(parseCTCmd(seekBar.getProgress() + 1700));
+                //System.out.println(seekBar.getProgress() + 1700);
             }
         });
         mColor.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -202,7 +206,7 @@ public class ControlActivity extends AppCompatActivity {
         return cmd;
     }
     private String parseCTCmd(int ct){
-        return CMD_CT.replace("%id",String.valueOf(++mCmdId)).replace("%value",String.valueOf(ct+1700));
+        return CMD_CT.replace("%id",String.valueOf(++mCmdId)).replace("%value",String.valueOf(ct));
     }
     private String parseColorCmd(int color){
         return CMD_HSV.replace("%id",String.valueOf(++mCmdId)).replace("%value",String.valueOf(color));
