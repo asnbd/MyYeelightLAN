@@ -46,10 +46,10 @@ public class ControlActivity extends AppCompatActivity {
     private ProgressDialog mProgressDialog;
     private SeekBar mBrightness;
     private SeekBar mCT;
-    private SeekBar mColor;
+    private SeekBar mHue;
     private TextView mBrightnessValue;
     private TextView mCTValue;
-    private TextView mColorValue;
+    private TextView mHueValue;
     private Button mBtnOn;
     private Button mBtnOff;
     private Button mBtnMusic;
@@ -92,15 +92,15 @@ public class ControlActivity extends AppCompatActivity {
         mProgressDialog.show();
 
         mBrightness = (SeekBar) findViewById(R.id.brightness);
-        mColor = (SeekBar) findViewById(R.id.color);
+        mHue = (SeekBar) findViewById(R.id.hue);
         mCT = (SeekBar) findViewById(R.id.ct);
 
         mBrightnessValue = (TextView) findViewById(R.id.brightness_value);
-        mColorValue = (TextView) findViewById(R.id.color_value);
+        mHueValue = (TextView) findViewById(R.id.hue_value);
         mCTValue = (TextView) findViewById(R.id.ct_value);
 
         mCT.setMax(4800);
-        mColor.setMax(359);
+        mHue.setMax(359);
         mBrightness.setMax(99);
 
 
@@ -141,11 +141,11 @@ public class ControlActivity extends AppCompatActivity {
                 write(parseCTCmd(ctVal));
             }
         });
-        mColor.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        mHue.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int colorVal = seekBar.getProgress();
-                mColorValue.setText(String.valueOf(colorVal));
+                int hueVal = seekBar.getProgress();
+                mHueValue.setText(String.valueOf(hueVal));
             }
 
             @Override
@@ -155,8 +155,8 @@ public class ControlActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                int colorVal = seekBar.getProgress();
-                write(parseColorCmd(colorVal));
+                int hueVal = seekBar.getProgress();
+                write(parseHSVCmd(hueVal));
             }
         });
         mBtnOn = (Button) findViewById(R.id.btn_on);
@@ -202,16 +202,16 @@ public class ControlActivity extends AppCompatActivity {
                             if (resultJson.getInt("id") == mPropCmdId){
                                 int currBrightness = resultJson.getJSONArray("result").getInt(1);
                                 int currCT = resultJson.getJSONArray("result").getInt(2);
-                                int currColor = resultJson.getJSONArray("result").getInt(4);
+                                int currHue = resultJson.getJSONArray("result").getInt(4);
 
 
                                 mBrightness.setProgress(currBrightness-1);
                                 mCT.setProgress(currCT-1700);
-                                mColor.setProgress(currColor);
+                                mHue.setProgress(currHue);
 
                                 mBrightnessValue.setText(String.valueOf(currBrightness));
                                 mCTValue.setText(String.valueOf(currCT));
-                                mColorValue.setText(String.valueOf(currColor));
+                                mHueValue.setText(String.valueOf(currHue));
 
                                 Log.d(TAG, "run: Got current prop");
                             }
@@ -252,7 +252,7 @@ public class ControlActivity extends AppCompatActivity {
     private String parseCTCmd(int ct){
         return CMD_CT.replace("%id",String.valueOf(++mCmdId)).replace("%value",String.valueOf(ct));
     }
-    private String parseColorCmd(int color){
+    private String parseHSVCmd(int color){
         return CMD_HSV.replace("%id",String.valueOf(++mCmdId)).replace("%value",String.valueOf(color));
     }
     private String parseBrightnessCmd(int brightness){
