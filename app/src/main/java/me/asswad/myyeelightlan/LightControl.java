@@ -3,24 +3,22 @@ package me.asswad.myyeelightlan;
 import android.util.Log;
 
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.net.Socket;
 
 public class LightControl {
     private String TAG = "LightControl";
 
-    private int mCmdId;
+    private int mCmdId = 93564;
     private Socket mSocket;
     private String mBulbIP = "192.168.1.14";
     private int mBulbPort = 55443;
     private BufferedOutputStream mBos;
-    private BufferedReader mReader;
 
     private static final int ACTION_TURN_ON = 1;
     private static final int ACTION_TURN_OFF = 0;
 
-    private static final String CMD_ON = "{\"id\":90131,\"method\":\"set_power\",\"params\":[\"on\",\"smooth\",500]}\r\n" ;
-    private static final String CMD_OFF = "{\"id\":90132,\"method\":\"set_power\",\"params\":[\"off\",\"smooth\",500]}\r\n" ;
+    private static final String CMD_ON = "{\"id\":%id,\"method\":\"set_power\",\"params\":[\"on\",\"smooth\",500]}\r\n" ;
+    private static final String CMD_OFF = "{\"id\":%id,\"method\":\"set_power\",\"params\":[\"off\",\"smooth\",500]}\r\n" ;
 
     public void turnOn(){
         connect(ACTION_TURN_ON);
@@ -55,10 +53,12 @@ public class LightControl {
     private void handleAction(int action) {
         switch (action){
             case ACTION_TURN_OFF:
-                sendCommand(CMD_OFF);
+                Log.d(TAG, "handleAction: Sending Turn Off Command");
+                sendCommand(parseCmd(CMD_OFF));
                 break;
             case ACTION_TURN_ON:
-                sendCommand(CMD_ON);
+                Log.d(TAG, "handleAction: Sending Turn On Command");
+                sendCommand(parseCmd(CMD_ON));
                 break;
         }
     }
@@ -77,6 +77,10 @@ public class LightControl {
         } else {
             Log.d(TAG,"mBos = null or mSocket is closed");
         }
+    }
+
+    private String parseCmd(String cmd){
+        return cmd.replace("%id", String.valueOf(++mCmdId));
     }
 
     private void closeConn() {
