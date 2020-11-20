@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="me.asswad.myyeelightlan">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -28,6 +29,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".LightTileService"
+            android:icon="@drawable/ic_launcher_foreground"
+            android:label="Light On"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
+            tools:ignore="Instantiatable">
+            <intent-filter>
+                <action
+                    android:name="android.service.quicksettings.action.QS_TILE"/>
+            </intent-filter>
+        </service>
     </application>
+
+
 
 </manifest>
