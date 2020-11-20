@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -60,10 +61,17 @@ public class ControlActivity extends AppCompatActivity {
         }
     };
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control);
+
+        // Remove restriction "always run network operations on a thread or as an asynchronous task" and override the default behavior.
+        // To avoid android.os.NetworkOnMainThreadException
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         mBulbIP = getIntent().getStringExtra("ip");
         mBulbPort = Integer.parseInt(getIntent().getStringExtra("port"));
