@@ -19,6 +19,9 @@ import java.net.Socket;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class ControlActivity extends AppCompatActivity {
 
     private String TAG = "Control";
@@ -26,6 +29,7 @@ public class ControlActivity extends AppCompatActivity {
     private static final int MSG_CONNECT_SUCCESS = 0;
     private static final int MSG_CONNECT_FAILURE = 1;
     private static final String CMD_TOGGLE = "{\"id\":%id,\"method\":\"toggle\",\"params\":[]}\r\n" ;
+    private static final String CMD_GET_PROP = "{\"id\":%id,\"method\":\"get_prop\",\"params\":[\"power\",\"bright\",\"ct\",\"rgb\",\"hue\",\"sat\",\"name\"]}\r\n" ;
     private static final String CMD_ON = "{\"id\":%id,\"method\":\"set_power\",\"params\":[\"on\",\"smooth\",500]}\r\n" ;
     private static final String CMD_OFF = "{\"id\":%id,\"method\":\"set_power\",\"params\":[\"off\",\"smooth\",500]}\r\n" ;
     private static final String CMD_CT = "{\"id\":%id,\"method\":\"set_ct_abx\",\"params\":[%value, \"smooth\", 500]}\r\n";
@@ -34,6 +38,7 @@ public class ControlActivity extends AppCompatActivity {
     private static final String CMD_BRIGHTNESS_SCENE = "{\"id\":%id,\"method\":\"set_bright\",\"params\":[%value, \"smooth\", 500]}\r\n";
     private static final String CMD_COLOR_SCENE = "{\"id\":%id,\"method\":\"set_scene\",\"params\":[\"cf\",1,0,\"100,1,%color,1\"]}\r\n";
 
+    private int mPropCmdId=-1;
     private int mCmdId;
     private Socket mSocket;
     private String mBulbIP;
@@ -61,6 +66,7 @@ public class ControlActivity extends AppCompatActivity {
                     break;
                 case MSG_CONNECT_SUCCESS:
                     mProgressDialog.dismiss();
+                    getProp();
                     break;
             }
         }
@@ -96,6 +102,8 @@ public class ControlActivity extends AppCompatActivity {
         mCT.setMax(4800);
         mColor.setMax(360);
         mBrightness.setMax(99);
+
+
 
         mBrightness.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -168,6 +176,11 @@ public class ControlActivity extends AppCompatActivity {
         connect();
     }
 
+    private void getProp(){
+        write(parseGetPropCmd());
+        mPropCmdId = mCmdId;
+    }
+
     private boolean cmd_run = true;
     private void connect(){
         new Thread(new Runnable() {
@@ -184,6 +197,24 @@ public class ControlActivity extends AppCompatActivity {
                         try {
                             String value = mReader.readLine();
                             Log.d(TAG, "value = "+value);
+
+                            JSONObject resultJson = new JSONObject(value);
+                            if (resultJson.getInt("id") == mPropCmdId){
+                                int currBrightness = resultJson.getJSONArray("result").getInt(1);
+                                int currCT = resultJson.getJSONArray("result").getInt(2);
+                                int currColor = resultJson.getJSONArray("result").getInt(4);
+
+
+                                mBrightness.setProgress(currBrightness-1);
+                                mCT.setProgress(currCT-1700);
+                                mColor.setProgress(currColor);
+
+                                mBrightnessValue.setText(String.valueOf(currBrightness));
+                                mCTValue.setText(String.valueOf(currCT));
+                                mColorValue.setText(String.valueOf(currColor));
+
+                                Log.d(TAG, "run: Got current prop");
+                            }
                         }catch (Exception e){
 
                         }
@@ -226,6 +257,9 @@ public class ControlActivity extends AppCompatActivity {
     }
     private String parseBrightnessCmd(int brightness){
         return CMD_BRIGHTNESS.replace("%id",String.valueOf(++mCmdId)).replace("%value",String.valueOf(brightness));
+    }
+    private String parseGetPropCmd(){
+        return CMD_GET_PROP.replace("%id",String.valueOf(++mCmdId));
     }
     private void write(String cmd){
         if (mBos != null && mSocket.isConnected()){

@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         Log.d("socket", "got message:" + buffer.toString());
                         if (!buffer.toString().contains("yeelight")) {
-                            mHandler.obtainMessage(MSG_SHOWLOG, "收到一条消息,不是Yeelight灯泡").sendToTarget();
+                            mHandler.obtainMessage(MSG_SHOWLOG, "Received a message, not Yeelight bulb").sendToTarget();
                             return;
                         }
                         String[] infos = buffer.toString().split("\n");
