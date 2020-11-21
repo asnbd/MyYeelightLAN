@@ -98,11 +98,6 @@ public class ControlActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control);
 
-        // Remove restriction "always run network operations on a thread or as an asynchronous task" and override the default behavior.
-        // To avoid android.os.NetworkOnMainThreadException
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
         mBulbIP = getIntent().getStringExtra("ip");
         mBulbPort = Integer.parseInt(getIntent().getStringExtra("port"));
 
@@ -358,17 +353,20 @@ public class ControlActivity extends AppCompatActivity {
     private String parseGetPropCmd(){
         return CMD_GET_PROP.replace("%id",String.valueOf(++mCmdId));
     }
+
     private void write(String cmd){
         Log.d(TAG, "write: cmd: " + cmd);
-        if (mBos != null && mSocket.isConnected()){
-            try {
-                mBos.write(cmd.getBytes());
-                mBos.flush();
-            }catch (Exception e){
-                e.printStackTrace();
+        new Thread(() -> {
+            if (mBos != null && mSocket.isConnected()) {
+                try {
+                    mBos.write(cmd.getBytes());
+                    mBos.flush();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Log.d(TAG, "mBos = null or mSocket is closed");
             }
-        } else {
-            Log.d(TAG,"mBos = null or mSocket is closed");
-        }
+        }).start();
     }
 }
