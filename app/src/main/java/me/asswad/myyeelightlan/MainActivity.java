@@ -3,6 +3,7 @@ package me.asswad.myyeelightlan;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
             super.handleMessage(msg);
             switch (msg.what) {
                 case MSG_FOUND_DEVICE:
+                case MSG_DISCOVER_FINISH:
                     mAdapter.notifyDataSetChanged();
                     break;
                 case MSG_SHOWLOG:
@@ -65,9 +67,6 @@ public class MainActivity extends AppCompatActivity {
                     mSearchThread.interrupt();
                     mAdapter.notifyDataSetChanged();
                     mSeraching = false;
-                    break;
-                case MSG_DISCOVER_FINISH:
-                    mAdapter.notifyDataSetChanged();
                     break;
             }
         }
@@ -85,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         multicastLock.acquire();
         mTextView = (TextView) findViewById(R.id.infotext);
         mBtnSearch = (Button) findViewById(R.id.btn_search);
+
         mBtnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,9 +92,11 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+
         mListView = (ListView) findViewById(R.id.deviceList);
         mAdapter = new MyAdapter(this);
         mListView.setAdapter(mAdapter);
+
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -109,7 +111,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        configDevice();
     }
+
+
 
     private Thread mSearchThread = null;
     private void searchDevice() {
@@ -277,11 +283,11 @@ public class MainActivity extends AppCompatActivity {
                 view = convertView;
             }
             TextView textView = (TextView) view.findViewById(android.R.id.text1);
-            textView.setText("Type = "+data.get("model") );
+            textView.setText("Type: " + data.get("model") );
 
             Log.d(TAG, "name = " + textView.getText().toString());
             TextView textSub = (TextView) view.findViewById(android.R.id.text2);
-            textSub.setText("location = " + data.get("Location"));
+            textSub.setText("Location: " + data.get("Location"));
             return view;
         }
     }
@@ -295,5 +301,18 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
+    private void configDevice(){
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.preference_recent_key), Context.MODE_PRIVATE);
+        if(sharedPref.contains(getString(R.string.preference_recent_location_key))){
+            String location = sharedPref.getString(getString(R.string.preference_recent_location_key), "yeelight://192.168.1.14:55443");
+            String type = sharedPref.getString(getString(R.string.preference_recent_type_key), "color");
+
+            HashMap<String, String> bulbInfo = new HashMap<String, String>();
+            bulbInfo.put("model", type);
+            bulbInfo.put("Location", location);
+            mDeviceList.add(bulbInfo);
+            mHandler.sendEmptyMessage(MSG_FOUND_DEVICE);
+        }
+    }
 
 }
