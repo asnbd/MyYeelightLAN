@@ -40,9 +40,9 @@ public class ControlActivity extends AppCompatActivity {
     private static final String CMD_ON = "{\"id\":%id,\"method\":\"set_power\",\"params\":[\"on\",\"smooth\",500]}\r\n" ;
     private static final String CMD_OFF = "{\"id\":%id,\"method\":\"set_power\",\"params\":[\"off\",\"smooth\",500]}\r\n" ;
     private static final String CMD_CT = "{\"id\":%id,\"method\":\"set_ct_abx\",\"params\":[%value, \"smooth\", 500]}\r\n";
-    private static final String CMD_HSV = "{\"id\":%id,\"method\":\"set_hsv\",\"params\":[%hue, %saturation, \"smooth\", 200]}\r\n";
-    private static final String CMD_COLOR = "{\"id\":%id,\"method\":\"set_rgb\",\"params\":[%value, \"smooth\", 200]}\r\n";
-    private static final String CMD_BRIGHTNESS = "{\"id\":%id,\"method\":\"set_bright\",\"params\":[%value, \"smooth\", 200]}\r\n";
+    private static final String CMD_HSV = "{\"id\":%id,\"method\":\"set_hsv\",\"params\":[%hue, %saturation, \"smooth\", 500]}\r\n";
+    private static final String CMD_COLOR = "{\"id\":%id,\"method\":\"set_rgb\",\"params\":[%value, \"smooth\", 500]}\r\n";
+    private static final String CMD_BRIGHTNESS = "{\"id\":%id,\"method\":\"set_bright\",\"params\":[%value, \"smooth\", 500]}\r\n";
     private static final String CMD_BRIGHTNESS_SCENE = "{\"id\":%id,\"method\":\"set_bright\",\"params\":[%value, \"smooth\", 500]}\r\n";
     private static final String CMD_COLOR_SCENE = "{\"id\":%id,\"method\":\"set_scene\",\"params\":[\"cf\",1,0,\"100,1,%color,1\"]}\r\n";
 
@@ -291,11 +291,13 @@ public class ControlActivity extends AppCompatActivity {
                                 if (resultJson.getInt("id") == mPropCmdId) {
                                     int currBrightness = resultJson.getJSONArray("result").getInt(1);
                                     int currCT = resultJson.getJSONArray("result").getInt(2);
+                                    int currColor = resultJson.getJSONArray("result").getInt(3);
                                     int currHue = resultJson.getJSONArray("result").getInt(4);
                                     int currSaturation = resultJson.getJSONArray("result").getInt(5);
 
                                     updateBrightness(currBrightness);
                                     updateCT(currCT);
+                                    updateColor(currColor);
                                     updateHue(currHue);
                                     updateSaturation(currSaturation);
 
@@ -323,6 +325,7 @@ public class ControlActivity extends AppCompatActivity {
         try {
             JSONObject params = resultJson.getJSONObject("params");
             if(params.has("ct")){ updateCT(params.getInt("ct")); }
+            if(params.has("rgb")){ updateColor(params.getInt("rgb")); }
             if(params.has("bright")){ updateBrightness(params.getInt("bright")); }
             if(params.has("hue")){ updateHue(params.getInt("hue")); }
             if(params.has("sat")){ updateSaturation(params.getInt("sat")); }
@@ -332,6 +335,7 @@ public class ControlActivity extends AppCompatActivity {
     }
 
     private void updateCT(int ct) { mCT.setProgress(ct-1700); }
+    private void updateColor(int color) { mColor.setColor(0xFF000000 | color); }
     private void updateBrightness(int brightness) { mBrightness.setProgress(brightness-1); }
     private void updateHue(int hue) { mHue.setProgress(hue); }
     private void updateSaturation(int saturation) { mSaturation.setProgress(saturation); }
