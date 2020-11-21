@@ -24,6 +24,7 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.HashMap;
 
 import android.os.Bundle;
 import android.widget.TextView;
@@ -104,7 +105,11 @@ public class ControlActivity extends AppCompatActivity {
 
         mBulbIP = getIntent().getStringExtra("ip");
         mBulbPort = Integer.parseInt(getIntent().getStringExtra("port"));
-        saveRecentDevice(mBulbIP, mBulbPort);
+
+        HashMap<String, String> bulbInfo = (HashMap<String, String>) getIntent().getSerializableExtra("bulbinfo");
+
+        saveRecentDevice(bulbInfo, mBulbIP, mBulbPort);
+
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setMessage("Connecting...");
         mProgressDialog.setCancelable(false);
@@ -225,11 +230,15 @@ public class ControlActivity extends AppCompatActivity {
         connect();
     }
 
-    private void saveRecentDevice(String ip, int port) {
+    private void saveRecentDevice(HashMap<String, String> bulbInfo, String ip, int port) {
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.preference_recent_key), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
+
+        editor.putString(getString(R.string.preference_recent_type_key), bulbInfo.get("model"));
+        editor.putString(getString(R.string.preference_recent_location_key), bulbInfo.get("Location"));
         editor.putString(getString(R.string.preference_recent_ip_key), ip);
         editor.putInt(getString(R.string.preference_recent_port_key), port);
+
         editor.apply();
 
         Log.d(TAG, "saveRecentDevice: Saved Current Device to Preference");
