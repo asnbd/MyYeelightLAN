@@ -1,6 +1,7 @@
 package me.asswad.myyeelightlan;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
@@ -8,6 +9,9 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedOutputStream;
 import java.net.Socket;
@@ -17,8 +21,8 @@ public class LightControl {
 
     private int mCmdId = 93564;
     private Socket mSocket;
-    private final String mBulbIP = "192.168.1.14";
-    private final int mBulbPort = 55443;
+    private String mBulbIP;
+    private int mBulbPort;
     private BufferedOutputStream mBos;
 
     private final Context context;
@@ -50,19 +54,11 @@ public class LightControl {
         this.context = context;
     }
 
-    public void turnOn(){
-        connect(ACTION_TURN_ON);
-    }
+    public void turnOn(){ connect(ACTION_TURN_ON); }
 
-    public void turnOff(){
-        connect(ACTION_TURN_OFF);
-    }
+    public void turnOff(){ connect(ACTION_TURN_OFF); }
 
-    public void toggle(){
-        connect(ACTION_TOGGLE);
-    }
-
-
+    public void toggle(){ connect(ACTION_TOGGLE); }
 
     private void connect(int action){
         new Thread(new Runnable() {
@@ -70,6 +66,11 @@ public class LightControl {
             public void run() {
                 try {
                     Log.d(TAG, "run: Connecting");
+
+                    if(!configDevice()){
+                        Log.d(TAG, "run: IP Not Set");
+                        return;
+                    }
 
                     ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
                     if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
@@ -140,5 +141,16 @@ public class LightControl {
         } catch (Exception e){
             Log.d(TAG, "closeConn: Exception");
         }
+    }
+
+    private boolean configDevice(){
+        SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.preference_recent_key), Context.MODE_PRIVATE);
+        if(sharedPref.contains("device_ip")){
+            mBulbIP = sharedPref.getString("device_ip", "192.168.1.14");
+            mBulbPort = sharedPref.getInt("device_port", 55443);
+            return true;
+        }
+
+        return false;
     }
 }
