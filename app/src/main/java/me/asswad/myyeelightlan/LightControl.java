@@ -4,21 +4,20 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.BufferedOutputStream;
 import java.net.Socket;
 
 public class LightControl {
-    private String TAG = "LightControl";
+    private final String TAG = "LightControl";
 
     private int mCmdId = 93564;
     private Socket mSocket;
-    private String mBulbIP = "192.168.1.14";
-    private int mBulbPort = 55443;
+    private final String mBulbIP = "192.168.1.14";
+    private final int mBulbPort = 55443;
     private BufferedOutputStream mBos;
 
-    private Context context;
+    private final Context context;
 
     private static final int ACTION_TURN_OFF = 0;
     private static final int ACTION_TURN_ON = 1;
@@ -67,7 +66,7 @@ public class LightControl {
                         Log.d(TAG, "run: Connection Failed, Wifi Not Connected");
                     }
 
-                    
+
                 } catch (Exception e) {
                     e.printStackTrace();
                     Log.d(TAG, "run: Connection Failed");
@@ -120,7 +119,7 @@ public class LightControl {
                 Log.d(TAG, "closeConn: Connection Closed");
             }
         } catch (Exception e){
-
+            Log.d(TAG, "closeConn: Exception");
         }
     }
 }
