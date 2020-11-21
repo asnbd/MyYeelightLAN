@@ -3,7 +3,11 @@ package me.asswad.myyeelightlan;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.BufferedOutputStream;
 import java.net.Socket;
@@ -23,9 +27,24 @@ public class LightControl {
     private static final int ACTION_TURN_ON = 1;
     private static final int ACTION_TOGGLE = 2;
 
+    private static final int MSG_CONNECT_SUCCESS = 700;
+    private static final int MSG_CONNECT_FAILURE = 701;
+
     private static final String CMD_ON = "{\"id\":%id,\"method\":\"set_power\",\"params\":[\"on\",\"smooth\",500]}\r\n" ;
     private static final String CMD_OFF = "{\"id\":%id,\"method\":\"set_power\",\"params\":[\"off\",\"smooth\",500]}\r\n" ;
     private static final String CMD_TOGGLE = "{\"id\":%id,\"method\":\"toggle\",\"params\":[]}\r\n" ;
+
+    private final Handler mHandler = new Handler(Looper.getMainLooper()){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case MSG_CONNECT_FAILURE:
+                    Toast.makeText(context, "Wifi Not Connected!", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+    };
 
     LightControl(Context context){
         this.context = context;
@@ -62,7 +81,7 @@ public class LightControl {
 
                         handleAction(action);
                     } else {
-//                        Toast.makeText(context, "Wifi Not Connected!", Toast.LENGTH_SHORT).show();
+                        mHandler.sendEmptyMessage(MSG_CONNECT_FAILURE);
                         Log.d(TAG, "run: Connection Failed, Wifi Not Connected");
                     }
 
