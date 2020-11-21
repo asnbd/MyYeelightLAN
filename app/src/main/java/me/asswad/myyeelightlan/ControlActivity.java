@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Paint;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
@@ -40,6 +41,7 @@ public class ControlActivity extends AppCompatActivity {
     private static final String CMD_OFF = "{\"id\":%id,\"method\":\"set_power\",\"params\":[\"off\",\"smooth\",500]}\r\n" ;
     private static final String CMD_CT = "{\"id\":%id,\"method\":\"set_ct_abx\",\"params\":[%value, \"smooth\", 500]}\r\n";
     private static final String CMD_HSV = "{\"id\":%id,\"method\":\"set_hsv\",\"params\":[%hue, %saturation, \"smooth\", 200]}\r\n";
+    private static final String CMD_COLOR = "{\"id\":%id,\"method\":\"set_rgb\",\"params\":[%value, \"smooth\", 200]}\r\n";
     private static final String CMD_BRIGHTNESS = "{\"id\":%id,\"method\":\"set_bright\",\"params\":[%value, \"smooth\", 200]}\r\n";
     private static final String CMD_BRIGHTNESS_SCENE = "{\"id\":%id,\"method\":\"set_bright\",\"params\":[%value, \"smooth\", 500]}\r\n";
     private static final String CMD_COLOR_SCENE = "{\"id\":%id,\"method\":\"set_scene\",\"params\":[\"cf\",1,0,\"100,1,%color,1\"]}\r\n";
@@ -54,12 +56,14 @@ public class ControlActivity extends AppCompatActivity {
     private SeekBar mCT;
     private SeekBar mHue;
     private SeekBar mSaturation;
+    private Paint mColor;
     private TextView mBrightnessValue;
     private TextView mCTValue;
     private TextView mHueValue;
     private TextView mSaturationValue;
     private Button mBtnOn;
     private Button mBtnOff;
+    private Button mBtnChangeColor;
     private Button mBtnMusic;
     private BufferedOutputStream mBos;
     private BufferedReader mReader;
@@ -109,6 +113,8 @@ public class ControlActivity extends AppCompatActivity {
         mHue = (SeekBar) findViewById(R.id.hue);
         mCT = (SeekBar) findViewById(R.id.ct);
         mSaturation = (SeekBar) findViewById(R.id.saturation);
+
+        mColor = new Paint();
 
         mBrightnessValue = (TextView) findViewById(R.id.brightness_value);
         mHueValue = (TextView) findViewById(R.id.hue_value);
@@ -202,6 +208,7 @@ public class ControlActivity extends AppCompatActivity {
 
         mBtnOn = (Button) findViewById(R.id.btn_on);
         mBtnOff = (Button) findViewById(R.id.btn_off);
+        mBtnChangeColor = (Button) findViewById(R.id.btn_color_picker);
 
         mBtnOn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -214,6 +221,22 @@ public class ControlActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 write(parseSwitch(false));
+            }
+        });
+
+        mBtnChangeColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //mColor.setColor(0xFF000000 | 255);
+
+                Log.d(TAG, "onClick: " + mColor.getColor());
+
+                new ColorPickerDialog(ControlActivity.this, color -> {
+                    int colorDec = 0xFFFFFF & color;
+                    mColor.setColor(color);
+                    write(parseColorCmd(colorDec));
+                    Log.d(TAG, "colorChanged: " + colorDec);
+                }, mColor.getColor()).show();
             }
         });
 
@@ -345,6 +368,11 @@ public class ControlActivity extends AppCompatActivity {
     private String parseBrightnessCmd(int brightness){
         return CMD_BRIGHTNESS.replace("%id",String.valueOf(++mCmdId)).replace("%value",String.valueOf(brightness));
     }
+
+    private String parseColorCmd(int color){
+        return CMD_COLOR.replace("%id",String.valueOf(++mCmdId)).replace("%value",String.valueOf(color));
+    }
+
     private String parseGetPropCmd(){
         return CMD_GET_PROP.replace("%id",String.valueOf(++mCmdId));
     }
