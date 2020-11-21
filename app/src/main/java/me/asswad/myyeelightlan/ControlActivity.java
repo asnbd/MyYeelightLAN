@@ -231,6 +231,8 @@ public class ControlActivity extends AppCompatActivity {
         editor.putString(getString(R.string.preference_recent_ip_key), ip);
         editor.putInt(getString(R.string.preference_recent_port_key), port);
         editor.apply();
+
+        Log.d(TAG, "saveRecentDevice: Saved Current Device to Preference");
     }
 
     private void getProp(){
