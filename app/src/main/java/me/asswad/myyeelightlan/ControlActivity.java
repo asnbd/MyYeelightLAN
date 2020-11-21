@@ -3,11 +3,14 @@ package me.asswad.myyeelightlan;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ShareCompat;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -64,14 +67,20 @@ public class ControlActivity extends AppCompatActivity {
     private BufferedOutputStream mBos;
     private BufferedReader mReader;
 
-    private Handler mHandler = new Handler(){
+    private final Handler mHandler = new Handler(Looper.getMainLooper()){
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what){
                 case MSG_CONNECT_FAILURE:
                     mProgressDialog.dismiss();
-                    finish();
+
+                    new AlertDialog.Builder(ControlActivity.this)
+                            .setTitle("Connection Failed")
+                            .setMessage("Please check your Wifi Connectivity.")
+                            .setNeutralButton(android.R.string.ok, (dialog, which) -> finish())
+                            .show();
+
                     break;
                 case MSG_CONNECT_SUCCESS:
                     mProgressDialog.dismiss();
