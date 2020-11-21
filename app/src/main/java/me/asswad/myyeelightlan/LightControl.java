@@ -10,9 +10,6 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.BufferedOutputStream;
 import java.net.Socket;
 
@@ -145,7 +142,7 @@ public class LightControl {
 
     private boolean configDevice(){
         SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.preference_recent_key), Context.MODE_PRIVATE);
-        if(sharedPref.contains("device_ip")){
+        if(sharedPref.contains(context.getString(R.string.preference_recent_ip_key))){
             mBulbIP = sharedPref.getString(context.getString(R.string.preference_recent_ip_key), "192.168.1.14");
             mBulbPort = sharedPref.getInt(context.getString(R.string.preference_recent_port_key), 55443);
             return true;
