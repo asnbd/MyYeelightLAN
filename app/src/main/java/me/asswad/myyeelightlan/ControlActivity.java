@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
@@ -103,6 +104,7 @@ public class ControlActivity extends AppCompatActivity {
 
         mBulbIP = getIntent().getStringExtra("ip");
         mBulbPort = Integer.parseInt(getIntent().getStringExtra("port"));
+        saveRecentDevice(mBulbIP, mBulbPort);
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setMessage("Connecting...");
         mProgressDialog.setCancelable(false);
@@ -221,6 +223,14 @@ public class ControlActivity extends AppCompatActivity {
         });
 
         connect();
+    }
+
+    private void saveRecentDevice(String ip, int port) {
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.preference_recent_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(getString(R.string.preference_recent_ip_key), ip);
+        editor.putInt(getString(R.string.preference_recent_port_key), port);
+        editor.apply();
     }
 
     private void getProp(){
