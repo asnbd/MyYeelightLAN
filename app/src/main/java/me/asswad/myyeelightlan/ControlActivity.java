@@ -1,6 +1,8 @@
 package me.asswad.myyeelightlan;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ShareCompat;
+
 import android.app.ProgressDialog;
 import android.os.Handler;
 import android.os.Message;
@@ -33,7 +35,7 @@ public class ControlActivity extends AppCompatActivity {
     private static final String CMD_ON = "{\"id\":%id,\"method\":\"set_power\",\"params\":[\"on\",\"smooth\",500]}\r\n" ;
     private static final String CMD_OFF = "{\"id\":%id,\"method\":\"set_power\",\"params\":[\"off\",\"smooth\",500]}\r\n" ;
     private static final String CMD_CT = "{\"id\":%id,\"method\":\"set_ct_abx\",\"params\":[%value, \"smooth\", 500]}\r\n";
-    private static final String CMD_HSV = "{\"id\":%id,\"method\":\"set_hsv\",\"params\":[%value, 100, \"smooth\", 200]}\r\n";
+    private static final String CMD_HSV = "{\"id\":%id,\"method\":\"set_hsv\",\"params\":[%hue, %saturation, \"smooth\", 200]}\r\n";
     private static final String CMD_BRIGHTNESS = "{\"id\":%id,\"method\":\"set_bright\",\"params\":[%value, \"smooth\", 200]}\r\n";
     private static final String CMD_BRIGHTNESS_SCENE = "{\"id\":%id,\"method\":\"set_bright\",\"params\":[%value, \"smooth\", 500]}\r\n";
     private static final String CMD_COLOR_SCENE = "{\"id\":%id,\"method\":\"set_scene\",\"params\":[\"cf\",1,0,\"100,1,%color,1\"]}\r\n";
@@ -47,9 +49,11 @@ public class ControlActivity extends AppCompatActivity {
     private SeekBar mBrightness;
     private SeekBar mCT;
     private SeekBar mHue;
+    private SeekBar mSaturation;
     private TextView mBrightnessValue;
     private TextView mCTValue;
     private TextView mHueValue;
+    private TextView mSaturationValue;
     private Button mBtnOn;
     private Button mBtnOff;
     private Button mBtnMusic;
@@ -73,7 +77,6 @@ public class ControlActivity extends AppCompatActivity {
     };
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,16 +97,17 @@ public class ControlActivity extends AppCompatActivity {
         mBrightness = (SeekBar) findViewById(R.id.brightness);
         mHue = (SeekBar) findViewById(R.id.hue);
         mCT = (SeekBar) findViewById(R.id.ct);
+        mSaturation = (SeekBar) findViewById(R.id.saturation);
 
         mBrightnessValue = (TextView) findViewById(R.id.brightness_value);
         mHueValue = (TextView) findViewById(R.id.hue_value);
         mCTValue = (TextView) findViewById(R.id.ct_value);
+        mSaturationValue = (TextView) findViewById(R.id.saturation_value);
 
         mCT.setMax(4800);
         mHue.setMax(359);
         mBrightness.setMax(99);
-
-
+        mSaturation.setMax(100);
 
         mBrightness.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -123,6 +127,7 @@ public class ControlActivity extends AppCompatActivity {
                 write(parseBrightnessCmd(brightnessVal));
             }
         });
+
         mCT.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -141,6 +146,7 @@ public class ControlActivity extends AppCompatActivity {
                 write(parseCTCmd(ctVal));
             }
         });
+
         mHue.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -156,23 +162,50 @@ public class ControlActivity extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 int hueVal = seekBar.getProgress();
-                write(parseHSVCmd(hueVal));
+                int saturationVal = Integer.parseInt(mSaturationValue.getText().toString());
+
+                write(parseHSVCmd(hueVal, saturationVal));
             }
         });
+
+        mSaturation.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                int saturationVal = seekBar.getProgress();
+                mSaturationValue.setText(String.valueOf(saturationVal));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                int hueVal = Integer.parseInt(mHueValue.getText().toString());
+                int saturationVal = seekBar.getProgress();
+
+                write(parseHSVCmd(hueVal, saturationVal));
+            }
+        });
+
         mBtnOn = (Button) findViewById(R.id.btn_on);
         mBtnOff = (Button) findViewById(R.id.btn_off);
+
         mBtnOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 write(parseSwitch(true));
             }
         });
+
         mBtnOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 write(parseSwitch(false));
             }
         });
+
         connect();
     }
 
@@ -252,8 +285,10 @@ public class ControlActivity extends AppCompatActivity {
     private String parseCTCmd(int ct){
         return CMD_CT.replace("%id",String.valueOf(++mCmdId)).replace("%value",String.valueOf(ct));
     }
-    private String parseHSVCmd(int color){
-        return CMD_HSV.replace("%id",String.valueOf(++mCmdId)).replace("%value",String.valueOf(color));
+    private String parseHSVCmd(int hue, int saturation){
+        return CMD_HSV.replace("%id",String.valueOf(++mCmdId))
+                .replace("%hue",String.valueOf(hue))
+                .replace("%saturation",String.valueOf(saturation));
     }
     private String parseBrightnessCmd(int brightness){
         return CMD_BRIGHTNESS.replace("%id",String.valueOf(++mCmdId)).replace("%value",String.valueOf(brightness));
@@ -262,6 +297,7 @@ public class ControlActivity extends AppCompatActivity {
         return CMD_GET_PROP.replace("%id",String.valueOf(++mCmdId));
     }
     private void write(String cmd){
+        Log.d(TAG, "write: cmd: " + cmd);
         if (mBos != null && mSocket.isConnected()){
             try {
                 mBos.write(cmd.getBytes());
