@@ -236,15 +236,18 @@ public class ControlActivity extends AppCompatActivity {
                                 int currBrightness = resultJson.getJSONArray("result").getInt(1);
                                 int currCT = resultJson.getJSONArray("result").getInt(2);
                                 int currHue = resultJson.getJSONArray("result").getInt(4);
+                                int currSaturation = resultJson.getJSONArray("result").getInt(5);
 
 
                                 mBrightness.setProgress(currBrightness-1);
                                 mCT.setProgress(currCT-1700);
                                 mHue.setProgress(currHue);
+                                mSaturation.setProgress(currSaturation);
 
                                 mBrightnessValue.setText(String.valueOf(currBrightness));
                                 mCTValue.setText(String.valueOf(currCT));
                                 mHueValue.setText(String.valueOf(currHue));
+                                mSaturationValue.setText(String.valueOf(currSaturation));
 
                                 Log.d(TAG, "run: Got current prop");
                             }
