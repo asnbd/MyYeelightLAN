@@ -1,12 +1,10 @@
 package me.asswad.myyeelightlan;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ShareCompat;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -14,7 +12,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -26,10 +23,8 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.HashMap;
 
-import android.os.Bundle;
 import android.widget.TextView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 

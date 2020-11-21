@@ -170,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
                     mHandler.sendEmptyMessage(MSG_DISCOVER_FINISH);
                 } catch (Exception e) {
                     e.printStackTrace();
+                    Log.d(TAG, "run: Error: " + e.getMessage());
                 }
             }
         });
