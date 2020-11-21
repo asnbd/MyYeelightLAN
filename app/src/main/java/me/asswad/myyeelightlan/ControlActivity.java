@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ControlActivity extends AppCompatActivity {
@@ -232,22 +233,21 @@ public class ControlActivity extends AppCompatActivity {
                             Log.d(TAG, "value = "+value);
 
                             JSONObject resultJson = new JSONObject(value);
+
+                            if(resultJson.has("method") && resultJson.getString("method").equals("props")){
+                                updateProps(resultJson);
+                            }
+
                             if (resultJson.getInt("id") == mPropCmdId){
                                 int currBrightness = resultJson.getJSONArray("result").getInt(1);
                                 int currCT = resultJson.getJSONArray("result").getInt(2);
                                 int currHue = resultJson.getJSONArray("result").getInt(4);
                                 int currSaturation = resultJson.getJSONArray("result").getInt(5);
 
-
-                                mBrightness.setProgress(currBrightness-1);
-                                mCT.setProgress(currCT-1700);
-                                mHue.setProgress(currHue);
-                                mSaturation.setProgress(currSaturation);
-
-                                mBrightnessValue.setText(String.valueOf(currBrightness));
-                                mCTValue.setText(String.valueOf(currCT));
-                                mHueValue.setText(String.valueOf(currHue));
-                                mSaturationValue.setText(String.valueOf(currSaturation));
+                                updateBrightness(currBrightness);
+                                updateCT(currCT);
+                                updateHue(currHue);
+                                updateSaturation(currSaturation);
 
                                 Log.d(TAG, "run: Got current prop");
                             }
@@ -263,6 +263,23 @@ public class ControlActivity extends AppCompatActivity {
             }
         }).start();
     }
+
+    private void updateProps(JSONObject resultJson) {
+        try {
+            JSONObject params = resultJson.getJSONObject("params");
+            if(params.has("ct")){ updateCT(params.getInt("ct")); }
+            if(params.has("bright")){ updateBrightness(params.getInt("bright")); }
+            if(params.has("hue")){ updateHue(params.getInt("hue")); }
+            if(params.has("sat")){ updateSaturation(params.getInt("sat")); }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateCT(int ct) { mCT.setProgress(ct-1700); }
+    private void updateBrightness(int brightness) { mBrightness.setProgress(brightness-1); }
+    private void updateHue(int hue) { mHue.setProgress(hue); }
+    private void updateSaturation(int saturation) { mSaturation.setProgress(saturation); }
 
     @Override
     protected void onDestroy() {
