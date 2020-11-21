@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ShareCompat;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
@@ -68,6 +71,7 @@ public class ControlActivity extends AppCompatActivity {
             switch (msg.what){
                 case MSG_CONNECT_FAILURE:
                     mProgressDialog.dismiss();
+                    finish();
                     break;
                 case MSG_CONNECT_SUCCESS:
                     mProgressDialog.dismiss();
@@ -221,41 +225,49 @@ public class ControlActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    cmd_run = true;
-                    mSocket = new Socket(mBulbIP, mBulbPort);
-                    mSocket.setKeepAlive(true);
-                    mBos= new BufferedOutputStream(mSocket.getOutputStream());
-                    mHandler.sendEmptyMessage(MSG_CONNECT_SUCCESS);
-                    mReader = new BufferedReader(new InputStreamReader(mSocket.getInputStream()));
-                    while (cmd_run){
-                        try {
-                            String value = mReader.readLine();
-                            Log.d(TAG, "value = "+value);
+                    ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
-                            JSONObject resultJson = new JSONObject(value);
+                    if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+                        cmd_run = true;
+                        mSocket = new Socket(mBulbIP, mBulbPort);
+                        mSocket.setKeepAlive(true);
+                        mBos = new BufferedOutputStream(mSocket.getOutputStream());
+                        mHandler.sendEmptyMessage(MSG_CONNECT_SUCCESS);
+                        mReader = new BufferedReader(new InputStreamReader(mSocket.getInputStream()));
+                        while (cmd_run) {
+                            try {
+                                String value = mReader.readLine();
+                                Log.d(TAG, "value = " + value);
 
-                            if(resultJson.has("method") && resultJson.getString("method").equals("props")){
-                                updateProps(resultJson);
+                                JSONObject resultJson = new JSONObject(value);
+
+                                if (resultJson.has("method") && resultJson.getString("method").equals("props")) {
+                                    updateProps(resultJson);
+                                }
+
+                                if (resultJson.getInt("id") == mPropCmdId) {
+                                    int currBrightness = resultJson.getJSONArray("result").getInt(1);
+                                    int currCT = resultJson.getJSONArray("result").getInt(2);
+                                    int currHue = resultJson.getJSONArray("result").getInt(4);
+                                    int currSaturation = resultJson.getJSONArray("result").getInt(5);
+
+                                    updateBrightness(currBrightness);
+                                    updateCT(currCT);
+                                    updateHue(currHue);
+                                    updateSaturation(currSaturation);
+
+                                    Log.d(TAG, "run: Got current prop");
+                                }
+                            } catch (Exception e) {
+
                             }
-
-                            if (resultJson.getInt("id") == mPropCmdId){
-                                int currBrightness = resultJson.getJSONArray("result").getInt(1);
-                                int currCT = resultJson.getJSONArray("result").getInt(2);
-                                int currHue = resultJson.getJSONArray("result").getInt(4);
-                                int currSaturation = resultJson.getJSONArray("result").getInt(5);
-
-                                updateBrightness(currBrightness);
-                                updateCT(currCT);
-                                updateHue(currHue);
-                                updateSaturation(currSaturation);
-
-                                Log.d(TAG, "run: Got current prop");
-                            }
-                        }catch (Exception e){
 
                         }
-
+                    } else {
+                        Log.d(TAG, "run: Connection Failed, Wifi Not Connected");
+                        mHandler.sendEmptyMessage(MSG_CONNECT_FAILURE);
                     }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                     mHandler.sendEmptyMessage(MSG_CONNECT_FAILURE);
