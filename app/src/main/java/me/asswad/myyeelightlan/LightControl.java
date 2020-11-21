@@ -1,6 +1,10 @@
 package me.asswad.myyeelightlan;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.BufferedOutputStream;
 import java.net.Socket;
@@ -14,6 +18,8 @@ public class LightControl {
     private int mBulbPort = 55443;
     private BufferedOutputStream mBos;
 
+    private Context context;
+
     private static final int ACTION_TURN_OFF = 0;
     private static final int ACTION_TURN_ON = 1;
     private static final int ACTION_TOGGLE = 2;
@@ -21,6 +27,10 @@ public class LightControl {
     private static final String CMD_ON = "{\"id\":%id,\"method\":\"set_power\",\"params\":[\"on\",\"smooth\",500]}\r\n" ;
     private static final String CMD_OFF = "{\"id\":%id,\"method\":\"set_power\",\"params\":[\"off\",\"smooth\",500]}\r\n" ;
     private static final String CMD_TOGGLE = "{\"id\":%id,\"method\":\"toggle\",\"params\":[]}\r\n" ;
+
+    LightControl(Context context){
+        this.context = context;
+    }
 
     public void turnOn(){
         connect(ACTION_TURN_ON);
@@ -35,6 +45,7 @@ public class LightControl {
     }
 
 
+
     private void connect(int action){
         new Thread(new Runnable() {
             @Override
@@ -42,13 +53,21 @@ public class LightControl {
                 try {
                     Log.d(TAG, "run: Connecting");
 
-                    mSocket = new Socket(mBulbIP, mBulbPort);
+                    ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                    if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+                        mSocket = new Socket(mBulbIP, mBulbPort);
 
-                    mSocket.setKeepAlive(true);
-                    mBos = new BufferedOutputStream(mSocket.getOutputStream());
-                    Log.d(TAG, "run: Connection Success");
+                        mSocket.setKeepAlive(true);
+                        mBos = new BufferedOutputStream(mSocket.getOutputStream());
+                        Log.d(TAG, "run: Connection Success");
 
-                    handleAction(action);
+                        handleAction(action);
+                    } else {
+//                        Toast.makeText(context, "Wifi Not Connected!", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "run: Connection Failed, Wifi Not Connected");
+                    }
+
+                    
                 } catch (Exception e) {
                     e.printStackTrace();
                     Log.d(TAG, "run: Connection Failed");

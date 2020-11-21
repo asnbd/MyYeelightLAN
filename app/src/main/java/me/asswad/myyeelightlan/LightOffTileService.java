@@ -26,7 +26,7 @@ public class LightOffTileService extends TileService {
     public void onClick() {
         super.onClick();
 
-        new LightControl().turnOff();
+        new LightControl(getApplicationContext()).turnOff();
     }
 
 }

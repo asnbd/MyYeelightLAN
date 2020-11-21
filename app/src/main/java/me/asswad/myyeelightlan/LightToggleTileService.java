@@ -26,7 +26,7 @@ public class LightToggleTileService extends TileService {
     public void onClick() {
         super.onClick();
 
-        new LightControl().toggle();
+        new LightControl(getApplicationContext()).toggle();
     }
 
 }
