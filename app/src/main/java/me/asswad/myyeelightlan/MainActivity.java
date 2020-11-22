@@ -313,11 +313,11 @@ public class MainActivity extends AppCompatActivity {
                 view = convertView;
             }
             TextView textView = (TextView) view.findViewById(android.R.id.text1);
-            textView.setText("Type: " + data.get("model") );
+            textView.setText("Model:" + data.get("model") );
 
             Log.d(TAG, "name = " + textView.getText().toString());
             TextView textSub = (TextView) view.findViewById(android.R.id.text2);
-            textSub.setText("Location: " + data.get("Location"));
+            textSub.setText("Location:" + data.get("Location"));
             return view;
         }
     }
