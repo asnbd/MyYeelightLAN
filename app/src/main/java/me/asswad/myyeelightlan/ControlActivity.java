@@ -247,7 +247,7 @@ public class ControlActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.preference_recent_key), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
 
-        editor.putString(getString(R.string.preference_recent_type_key), bulbInfo.get("model"));
+        editor.putString(getString(R.string.preference_recent_model_key), bulbInfo.get("model"));
         editor.putString(getString(R.string.preference_recent_location_key), bulbInfo.get("Location"));
         editor.putString(getString(R.string.preference_recent_ip_key), ip);
         editor.putInt(getString(R.string.preference_recent_port_key), port);
