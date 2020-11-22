@@ -26,12 +26,12 @@
             android:text="OFF"/>
 
         <Button
-            android:id="@+id/w_btn_toggle"
+            android:id="@+id/w_btn_dim"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:layout_weight="1"
-            android:text="Toggle"/>
+            android:text="DIM"/>
         <Button
             android:id="@+id/w_btn_bright"
             android:layout_width="wrap_content"
