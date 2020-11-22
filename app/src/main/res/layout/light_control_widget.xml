@@ -3,44 +3,94 @@
     android:layout_height="match_parent"
     android:background="@color/lc_widget_background"
     android:padding="@dimen/widget_margin"
-    android:theme="@style/ThemeOverlay.MyYeelightLAN.AppWidgetContainer">
+    android:theme="@style/ThemeOverlay.MyYeelightLAN.AppWidgetContainer"
+    android:orientation="horizontal">
 
-    <Button
+<!--    <Button-->
+<!--        android:id="@+id/w_btn_on"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_weight="1"-->
+<!--        android:background="@color/lc_widget_btn_background"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:text="On"/>-->
+
+<!--    <Button-->
+<!--        android:id="@+id/w_btn_off"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_weight="1"-->
+<!--        android:background="@color/lc_widget_btn_background"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:layout_marginStart="1dp"-->
+<!--        android:text="OFF"/>-->
+
+<!--    <Button-->
+<!--        android:id="@+id/w_btn_dim"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_weight="1"-->
+<!--        android:background="@color/lc_widget_btn_background"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:layout_marginStart="1dp"-->
+<!--        android:text="DIM"/>-->
+<!--    <Button-->
+<!--        android:id="@+id/w_btn_bright"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_weight="1"-->
+<!--        android:background="@color/lc_widget_btn_background"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:layout_marginStart="1dp"-->
+<!--        android:text="BRIGHT"/>-->
+
+    <ImageButton
         android:id="@+id/w_btn_on"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@color/lc_widget_btn_background"
-        android:textColor="@color/black"
-        android:text="On"/>
+        android:tint="@color/teal_700"
+        android:src="@drawable/ic_light_bulb_on"
+        android:padding="20dp"
+        android:scaleType="centerInside"/>
 
-    <Button
+    <ImageButton
         android:id="@+id/w_btn_off"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@color/lc_widget_btn_background"
-        android:textColor="@color/black"
+        android:tint="@color/teal_700"
         android:layout_marginStart="1dp"
-        android:text="OFF"/>
+        android:src="@drawable/ic_light_bulb_off"
+        android:paddingStart="23dp"
+        android:paddingEnd="23dp"
+        android:paddingTop="7dp"
+        android:scaleType="centerInside"/>
 
-    <Button
+    <ImageButton
         android:id="@+id/w_btn_dim"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@color/lc_widget_btn_background"
-        android:textColor="@color/black"
+        android:tint="@color/teal_700"
         android:layout_marginStart="1dp"
-        android:text="DIM"/>
-    <Button
+        android:src="@drawable/ic_baseline_brightness_4_64"
+        android:padding="20dp"
+        android:scaleType="centerInside"/>
+
+    <ImageButton
         android:id="@+id/w_btn_bright"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@color/lc_widget_btn_background"
-        android:textColor="@color/black"
+        android:tint="@color/teal_700"
         android:layout_marginStart="1dp"
-        android:text="BRIGHT"/>
+        android:src="@drawable/ic_baseline_brightness_7_24"
+        android:padding="20dp"
+        android:scaleType="centerInside"/>
 
 </LinearLayout>
