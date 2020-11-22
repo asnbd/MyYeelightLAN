@@ -4,6 +4,7 @@ import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
@@ -26,7 +27,7 @@ public class LightOnTileService extends TileService {
     @Override
     public void onClick() {
         super.onClick();
-
+        Log.d(TAG, "onClick: Clicked Light On Tile");
         new LightControl(getApplicationContext()).turnOn();
     }
 
