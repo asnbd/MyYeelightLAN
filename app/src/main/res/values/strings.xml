@@ -2,7 +2,7 @@
     <string name="app_name">My Yeelight LAN</string>
     <string name="preference_recent_key">me.asswadsarker.myyeelightlan.RECENT_DEVICE</string>
     <string name="preference_recent_location_key">me.asswadsarker.myyeelightlan.RECENT_DEVICE_LOCATION</string>
-    <string name="preference_recent_type_key">me.asswadsarker.myyeelightlan.RECENT_DEVICE_TYPE</string>
+    <string name="preference_recent_model_key">me.asswadsarker.myyeelightlan.RECENT_DEVICE_TYPE</string>
     <string name="preference_recent_ip_key">me.asswadsarker.myyeelightlan.RECENT_DEVICE_IP</string>
     <string name="preference_recent_port_key">me.asswadsarker.myyeelightlan.RECENT_DEVICE_PORT</string>
     <string name="appwidget_text">EXAMPLE</string>
