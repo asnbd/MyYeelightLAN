@@ -47,7 +47,7 @@ public class LightControl {
         }
     };
 
-    LightControl(Context context){
+    public LightControl(Context context){
         this.context = context;
     }
 
