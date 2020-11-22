@@ -10,6 +10,8 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatViewInflater;
+
 import java.io.BufferedOutputStream;
 import java.net.Socket;
 
@@ -27,6 +29,8 @@ public class LightControl {
     private static final int ACTION_TURN_OFF = 0;
     private static final int ACTION_TURN_ON = 1;
     private static final int ACTION_TOGGLE = 2;
+    private static final int ACTION_BRIGHT = 3;
+    private static final int ACTION_DIM = 4;
 
     private static final int MSG_CONNECT_SUCCESS = 700;
     private static final int MSG_CONNECT_FAILURE = 701;
@@ -34,6 +38,8 @@ public class LightControl {
     private static final String CMD_ON = "{\"id\":%id,\"method\":\"set_power\",\"params\":[\"on\",\"smooth\",500]}\r\n" ;
     private static final String CMD_OFF = "{\"id\":%id,\"method\":\"set_power\",\"params\":[\"off\",\"smooth\",500]}\r\n" ;
     private static final String CMD_TOGGLE = "{\"id\":%id,\"method\":\"toggle\",\"params\":[]}\r\n" ;
+    private static final String CMD_BRIGHT = "{\"id\":%id,\"method\":\"set_bright\",\"params\":[100, \"smooth\", 500]}\r\n";
+    private static final String CMD_DIM = "{\"id\":%id,\"method\":\"set_bright\",\"params\":[1, \"smooth\", 500]}\r\n";
 
     private final Handler mHandler = new Handler(Looper.getMainLooper()){
         @Override
@@ -56,6 +62,10 @@ public class LightControl {
     public void turnOff(){ connect(ACTION_TURN_OFF); }
 
     public void toggle(){ connect(ACTION_TOGGLE); }
+
+    public void bright(){ connect(ACTION_BRIGHT); }
+
+    public void dim(){ connect(ACTION_DIM); }
 
     private void connect(int action){
         new Thread(new Runnable() {
@@ -105,6 +115,14 @@ public class LightControl {
             case ACTION_TOGGLE:
                 Log.d(TAG, "handleAction: Sending Toggle Command");
                 sendCommand(parseCmd(CMD_TOGGLE));
+                break;
+            case ACTION_BRIGHT:
+                Log.d(TAG, "handleAction: Sending Bright Command");
+                sendCommand(parseCmd(CMD_BRIGHT));
+                break;
+            case ACTION_DIM:
+                Log.d(TAG, "handleAction: Sending Dim Command");
+                sendCommand(parseCmd(CMD_DIM));
                 break;
         }
     }
