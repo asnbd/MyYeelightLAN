@@ -5,4 +5,6 @@
     <string name="preference_recent_type_key">me.asswadsarker.myyeelightlan.RECENT_DEVICE_TYPE</string>
     <string name="preference_recent_ip_key">me.asswadsarker.myyeelightlan.RECENT_DEVICE_IP</string>
     <string name="preference_recent_port_key">me.asswadsarker.myyeelightlan.RECENT_DEVICE_PORT</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 </resources>
