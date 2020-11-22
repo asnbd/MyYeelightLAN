@@ -56,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
     private CardView mRecentCard;
     private Button mBtnSearch;
 
+    private String recentDeviceLocation;
+    private String recentDeviceModel;
+
     private Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
@@ -121,6 +124,21 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("port", port);
                 startActivity(intent);
             }
+        });
+
+        mRecentCard.setOnClickListener(v -> {
+            HashMap<String, String> bulbInfo = new HashMap<String, String>();
+            bulbInfo.put("model", recentDeviceModel);
+            bulbInfo.put("Location", recentDeviceLocation);
+
+            Intent intent = new Intent(MainActivity.this, ControlActivity.class);
+            String ipinfo = bulbInfo.get("Location").split("//")[1];
+            String ip = ipinfo.split(":")[0];
+            String port = ipinfo.split(":")[1];
+            intent.putExtra("bulbinfo", bulbInfo);
+            intent.putExtra("ip", ip);
+            intent.putExtra("port", port);
+            startActivity(intent);
         });
 
         configDevice();
@@ -316,11 +334,11 @@ public class MainActivity extends AppCompatActivity {
     private void configDevice(){
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.preference_recent_key), Context.MODE_PRIVATE);
         if(sharedPref.contains(getString(R.string.preference_recent_location_key))){
-            String location = sharedPref.getString(getString(R.string.preference_recent_location_key), "yeelight://192.168.1.14:55443");
-            String model = sharedPref.getString(getString(R.string.preference_recent_model_key), "color");
+            recentDeviceLocation = sharedPref.getString(getString(R.string.preference_recent_location_key), "yeelight://192.168.1.14:55443");
+            recentDeviceModel = sharedPref.getString(getString(R.string.preference_recent_model_key), "color");
 
-            mRecentLocationTV.setText("Location:" + location);
-            mRecentModelTV.setText("Model:" + model);
+            mRecentLocationTV.setText("Location:" + recentDeviceLocation);
+            mRecentModelTV.setText("Model:" + recentDeviceModel);
 
             mRecentCard.setVisibility(View.VISIBLE);
         }
