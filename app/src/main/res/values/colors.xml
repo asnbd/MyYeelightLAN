@@ -13,4 +13,5 @@
     <color name="light_blue_900">#FF01579B</color>
     <color name="lc_widget_background">#11FFFFFF</color>
     <color name="lc_widget_btn_background">#22FFFFFF</color>
+    <color name="lc_widget_btn_icon_tint">#FF1976d2</color>
 </resources>
