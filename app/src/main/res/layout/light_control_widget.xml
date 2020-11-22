@@ -1,44 +1,46 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/appWidgetBackgroundColor"
+    android:background="@color/lc_widget_background"
     android:padding="@dimen/widget_margin"
     android:theme="@style/ThemeOverlay.MyYeelightLAN.AppWidgetContainer">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/w_btn_on"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_weight="1"
+        android:background="@color/lc_widget_btn_background"
+        android:textColor="@color/black"
+        android:text="On"/>
 
-        <Button
-            android:id="@+id/w_btn_on"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="ON"/>
+    <Button
+        android:id="@+id/w_btn_off"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/lc_widget_btn_background"
+        android:textColor="@color/black"
+        android:layout_marginStart="1dp"
+        android:text="OFF"/>
 
-        <Button
-            android:id="@+id/w_btn_off"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
-            android:text="OFF"/>
+    <Button
+        android:id="@+id/w_btn_dim"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/lc_widget_btn_background"
+        android:textColor="@color/black"
+        android:layout_marginStart="1dp"
+        android:text="DIM"/>
+    <Button
+        android:id="@+id/w_btn_bright"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/lc_widget_btn_background"
+        android:textColor="@color/black"
+        android:layout_marginStart="1dp"
+        android:text="BRIGHT"/>
 
-        <Button
-            android:id="@+id/w_btn_dim"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
-            android:text="DIM"/>
-        <Button
-            android:id="@+id/w_btn_bright"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
-            android:text="BRIGHT"/>
-    </LinearLayout>
-
-</RelativeLayout>
+</LinearLayout>
