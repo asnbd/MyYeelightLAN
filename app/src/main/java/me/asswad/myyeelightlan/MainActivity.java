@@ -1,6 +1,8 @@
 package me.asswad.myyeelightlan;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -49,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
     private MyAdapter mAdapter;
     List<HashMap<String, String>> mDeviceList = new ArrayList<HashMap<String, String>>();
     private TextView mTextView;
+    private TextView mRecentLocationTV;
+    private TextView mRecentModelTV;
+    private CardView mRecentCard;
     private Button mBtnSearch;
 
     private Handler mHandler = new Handler(Looper.getMainLooper()) {
@@ -82,7 +87,13 @@ public class MainActivity extends AppCompatActivity {
         WifiManager wm = (WifiManager)getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         multicastLock = wm.createMulticastLock("test");
         multicastLock.acquire();
+
         mTextView = (TextView) findViewById(R.id.infotext);
+        mRecentLocationTV = (TextView) findViewById(R.id.recent_light_location);
+        mRecentModelTV = (TextView) findViewById(R.id.recent_light_model);
+
+        mRecentCard = (CardView) findViewById(R.id.recent_light_card);
+
         mBtnSearch = (Button) findViewById(R.id.btn_search);
 
         mBtnSearch.setOnClickListener(new View.OnClickListener() {
@@ -306,13 +317,12 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.preference_recent_key), Context.MODE_PRIVATE);
         if(sharedPref.contains(getString(R.string.preference_recent_location_key))){
             String location = sharedPref.getString(getString(R.string.preference_recent_location_key), "yeelight://192.168.1.14:55443");
-            String type = sharedPref.getString(getString(R.string.preference_recent_type_key), "color");
+            String model = sharedPref.getString(getString(R.string.preference_recent_model_key), "color");
 
-            HashMap<String, String> bulbInfo = new HashMap<String, String>();
-            bulbInfo.put("model", type);
-            bulbInfo.put("Location", location);
-            mDeviceList.add(bulbInfo);
-            mHandler.sendEmptyMessage(MSG_FOUND_DEVICE);
+            mRecentLocationTV.setText("Location:" + location);
+            mRecentModelTV.setText("Model:" + model);
+
+            mRecentCard.setVisibility(View.VISIBLE);
         }
     }
 
