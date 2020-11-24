@@ -103,6 +103,7 @@ public class ControlActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control);
 
+        getSupportActionBar().setTitle("Light Control");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mBulbIP = getIntent().getStringExtra("ip");
