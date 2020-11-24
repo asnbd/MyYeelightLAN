@@ -4,18 +4,24 @@
 
 > Developed By: [Asswad Sarker Nomaan](https://www.asswadsarker.me "Asswad Sarker Nomaan")
 
+## Features
+* Search & Connect to Yeelight Device over LAN
+* Stores recent device in to connect faster
+* Control Device Power on/off of Yeelight Device
+* Control Brightness of Yeelight Device
+* Change Color, Color Temperature, Hue, Saturation of Yeelight Device (Supported Models only)
+* Control Power from Quick Settings Tile in Notification Bar
+* Control Power & Brightness from Home Screen Widget
+
 ## Screenshots
 ![HomeScreen](screenshots/My-Yeelight-LAN-Screenshot-Home.png "Home Screen")
 ![HomeSearch](screenshots/My-Yeelight-LAN-Screenshot-Home-Search.png "Home Screen Search")
-![HomeScreenRecent](screenshots/My-Yeelight-LAN-Screenshot-Home-Recent.png "Home Screen Recent")
 ![ControlScreen](screenshots/My-Yeelight-LAN-Screenshot-Control.png "Control Screen")
 ![ColorPicker](screenshots/My-Yeelight-LAN-Screenshot-Color-Picker.png "Color Picker")
+![HomeScreenRecent](screenshots/My-Yeelight-LAN-Screenshot-Home-Recent.png "Home Screen Recent")
 ![QuickSettings](screenshots/My-Yeelight-LAN-Screenshot-Quick-Settings.png "Quick Settings")
 ![WidgetAdd](screenshots/My-Yeelight-LAN-Screenshot-Widget-Add.png "Widget Add")
 ![Widget](screenshots/My-Yeelight-LAN-Screenshot-Widget.png "Widget")
-
-
-
 
 ## License
 ```
