@@ -9,6 +9,7 @@
         android:id="@+id/infotext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="Welcome to My Yeelight LAN Controller!"
         android:gravity="center"/>
 
