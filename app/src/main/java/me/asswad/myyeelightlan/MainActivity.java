@@ -2,10 +2,8 @@ package me.asswad.myyeelightlan;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -36,7 +34,6 @@ import android.net.wifi.WifiManager.MulticastLock;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "APITEST";
@@ -91,10 +88,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
 
         WifiManager wm = (WifiManager)getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         multicastLock = wm.createMulticastLock("test");
