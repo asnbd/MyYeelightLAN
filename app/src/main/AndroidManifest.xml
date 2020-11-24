@@ -32,7 +32,8 @@
                 android:resource="@xml/light_control_widget_info" />
         </receiver>
 
-        <activity android:name=".ControlActivity" />
+        <activity android:name=".ControlActivity"
+            android:parentActivityName=".MainActivity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
