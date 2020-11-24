@@ -1,7 +1,7 @@
 # My Yeelight LAN
 > My Yeelight LAN is an App to remote control your Yeelight Device in Local Area Network (LAN) which doesn't require any internet connectivity.
 
-> Created By: Asswad Sarker Nomaan
+> Developed By: Asswad Sarker Nomaan
 
 ## Screenshots
 ![HomeScreen](screenshots/My-Yeelight-LAN-Screenshot-Home-Recent.png "Home Screen")
