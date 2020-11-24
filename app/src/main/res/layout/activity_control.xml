@@ -19,8 +19,7 @@
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:title="Light Control"
-            app:titleTextColor="#fff"/>
+            app:title="Light Control" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout

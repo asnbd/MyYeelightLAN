@@ -20,8 +20,7 @@
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:title="Welcome"
-            app:titleTextColor="#fff"/>
+            app:title="Welcome" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
