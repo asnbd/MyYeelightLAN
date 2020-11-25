@@ -1,5 +1,7 @@
 # My Yeelight LAN
-![MIT license](https://img.shields.io/badge/License-MIT-blue.svg) ![Release](https://img.shields.io/github/release-date/asnbd/MyYeelightLAN?logo=github "Release Date") ![Downloads](https://img.shields.io/github/downloads/asnbd/MyYeelightLAN/total?label=downloads&logo=github "Downloads")
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Release](https://img.shields.io/github/release-date/asnbd/MyYeelightLAN?logo=github "Release Date")](../../releases/latest) 
+[![Downloads](https://img.shields.io/github/downloads/asnbd/MyYeelightLAN/total?label=downloads&logo=github "Downloads")](../../releases/latest) 
 > My Yeelight LAN is an App to remote control your Yeelight Device in Local Area Network (LAN) which doesn't require any internet connectivity.
 
 > Developed By: [Asswad Sarker Nomaan](https://www.asswadsarker.me "Asswad Sarker Nomaan")
