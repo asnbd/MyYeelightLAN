@@ -1,8 +1,10 @@
 # My Yeelight LAN
-![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)
+![MIT license](https://img.shields.io/badge/License-MIT-blue.svg) ![Downloads](https://img.shields.io/github/downloads/asnbd/MyYeelightLAN/total?label=Downloads&logo=github "Downloads")
 > My Yeelight LAN is an App to remote control your Yeelight Device in Local Area Network (LAN) which doesn't require any internet connectivity.
 
 > Developed By: [Asswad Sarker Nomaan](https://www.asswadsarker.me "Asswad Sarker Nomaan")
+
+> Latest Release: [Download](../../releases/latest) 
 
 ## Features
 * Search & Connect to Yeelight Device over LAN
