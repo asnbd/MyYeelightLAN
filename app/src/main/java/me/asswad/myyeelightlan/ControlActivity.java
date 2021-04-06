@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.net.ConnectivityManager;
@@ -370,14 +371,17 @@ public class ControlActivity extends AppCompatActivity {
         }
         return cmd;
     }
+
     private String parseCTCmd(int ct){
         return CMD_CT.replace("%id",String.valueOf(++mCmdId)).replace("%value",String.valueOf(ct));
     }
+
     private String parseHSVCmd(int hue, int saturation){
         return CMD_HSV.replace("%id",String.valueOf(++mCmdId))
                 .replace("%hue",String.valueOf(hue))
                 .replace("%saturation",String.valueOf(saturation));
     }
+
     private String parseBrightnessCmd(int brightness){
         return CMD_BRIGHTNESS.replace("%id",String.valueOf(++mCmdId)).replace("%value",String.valueOf(brightness));
     }
@@ -418,7 +422,10 @@ public class ControlActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_item_about:
-                Toast.makeText(this, "Developed By Asswad Sarker Nomaan", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "Developed By Asswad Sarker Nomaan", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ControlActivity.this, About.class);
+                startActivity(intent);
+
                 return true;
             case R.id.menu_item_exit:
                 this.finishAffinity();
