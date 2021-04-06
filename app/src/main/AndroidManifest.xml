@@ -22,15 +22,17 @@
         android:roundIcon="@drawable/ic_light_bulb_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyYeelightLAN">
+        <activity android:name=".About"></activity>
+
         <receiver android:name=".widgets.LightControlWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name=".widgets.LightControlWidget.ACTION_UPDATE_CLICK_ON"/>
-                <action android:name=".widgets.LightControlWidget.ACTION_UPDATE_CLICK_OFF"/>
-                <action android:name=".widgets.LightControlWidget.ACTION_UPDATE_CLICK_OFF"/>
-                <action android:name=".widgets.LightControlWidget.ACTION_UPDATE_CLICK_TOGGLE"/>
-                <action android:name=".widgets.LightControlWidget.ACTION_UPDATE_CLICK_BRIGHT"/>
-                <action android:name=".widgets.LightControlWidget.ACTION_UPDATE_CLICK_DIM"/>
+                <action android:name=".widgets.LightControlWidget.ACTION_UPDATE_CLICK_ON" />
+                <action android:name=".widgets.LightControlWidget.ACTION_UPDATE_CLICK_OFF" />
+                <action android:name=".widgets.LightControlWidget.ACTION_UPDATE_CLICK_OFF" />
+                <action android:name=".widgets.LightControlWidget.ACTION_UPDATE_CLICK_TOGGLE" />
+                <action android:name=".widgets.LightControlWidget.ACTION_UPDATE_CLICK_BRIGHT" />
+                <action android:name=".widgets.LightControlWidget.ACTION_UPDATE_CLICK_DIM" />
             </intent-filter>
 
             <meta-data
@@ -38,8 +40,9 @@
                 android:resource="@xml/light_control_widget_info" />
         </receiver>
 
-        <activity android:name=".ControlActivity"
-            android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".ControlActivity"
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

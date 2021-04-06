@@ -159,7 +159,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_item_about:
-                Toast.makeText(this, "Developed By Asswad Sarker Nomaan", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "Developed By Asswad Sarker Nomaan", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, About.class);
+                startActivity(intent);
                 return true;
             case R.id.menu_item_exit:
                 this.finishAffinity();
