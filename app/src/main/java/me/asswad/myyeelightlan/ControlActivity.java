@@ -23,6 +23,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 
 import java.io.BufferedOutputStream;
@@ -71,12 +72,15 @@ public class ControlActivity extends AppCompatActivity {
     private TextView mCTValue;
     private TextView mHueValue;
     private TextView mSaturationValue;
+    private ImageButton mBtnDeviceInfo;
     private Button mBtnOn;
     private Button mBtnOff;
     private Button mBtnChangeColor;
     private Button mBtnMusic;
     private BufferedOutputStream mBos;
     private BufferedReader mReader;
+
+    private HashMap<String, String> bulbInfo;
 
     private final Handler mHandler = new Handler(Looper.getMainLooper()){
         @Override
@@ -113,7 +117,7 @@ public class ControlActivity extends AppCompatActivity {
         mBulbIP = getIntent().getStringExtra("ip");
         mBulbPort = Integer.parseInt(getIntent().getStringExtra("port"));
 
-        HashMap<String, String> bulbInfo = (HashMap<String, String>) getIntent().getSerializableExtra("bulbinfo");
+        bulbInfo = (HashMap<String, String>) getIntent().getSerializableExtra("bulbinfo");
 
         saveRecentDevice(bulbInfo, mBulbIP, mBulbPort);
 
@@ -222,9 +226,31 @@ public class ControlActivity extends AppCompatActivity {
             }
         });
 
+        mBtnDeviceInfo = findViewById(R.id.device_info_btn);
         mBtnOn = (Button) findViewById(R.id.btn_on);
         mBtnOff = (Button) findViewById(R.id.btn_off);
         mBtnChangeColor = (Button) findViewById(R.id.btn_color_picker);
+
+        mBtnDeviceInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                String name = new String(Base64.decode(bulbInfo.get("name"), Base64.DEFAULT));
+                String name = mLightTitle.getText().toString();
+
+                String message = "Location: " + bulbInfo.get("Location") + "\n" +
+                        "Model: " + bulbInfo.get("model") + "\n" +
+                        "ID: " + bulbInfo.get("id") + "\n" +
+                        "Firmware Version: " + bulbInfo.get("fw_ver") + "\n" +
+                        "Name: " + name;
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(ControlActivity.this);
+                builder.setTitle("Device Info");
+                builder.setMessage(message);
+                builder.setPositiveButton(android.R.string.ok, null);
+
+                builder.show();
+            }
+        });
 
         mBtnOn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -263,6 +289,8 @@ public class ControlActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.preference_recent_key), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
 
+        editor.putString(getString(R.string.preference_recent_firmware_key), bulbInfo.get("fw_ver"));
+        editor.putString(getString(R.string.preference_recent_id_key), bulbInfo.get("id"));
         editor.putString(getString(R.string.preference_recent_model_key), bulbInfo.get("model"));
         editor.putString(getString(R.string.preference_recent_location_key), bulbInfo.get("Location"));
         editor.putString(getString(R.string.preference_recent_ip_key), ip);

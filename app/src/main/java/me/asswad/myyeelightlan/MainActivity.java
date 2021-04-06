@@ -59,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
     private CardView mRecentCard;
     private Button mBtnSearch;
 
+    private String recentDeviceID;
+    private String recentDeviceFirmware;
     private String recentDeviceLocation;
     private String recentDeviceModel;
 
@@ -132,6 +134,8 @@ public class MainActivity extends AppCompatActivity {
 
         mRecentCard.setOnClickListener(v -> {
             HashMap<String, String> bulbInfo = new HashMap<String, String>();
+            bulbInfo.put("id", recentDeviceID);
+            bulbInfo.put("fw_ver", recentDeviceFirmware);
             bulbInfo.put("model", recentDeviceModel);
             bulbInfo.put("Location", recentDeviceLocation);
 
@@ -362,6 +366,8 @@ public class MainActivity extends AppCompatActivity {
     private void configDevice(){
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.preference_recent_key), Context.MODE_PRIVATE);
         if(sharedPref.contains(getString(R.string.preference_recent_location_key))){
+            recentDeviceID = sharedPref.getString(getString(R.string.preference_recent_id_key), "0");
+            recentDeviceFirmware = sharedPref.getString(getString(R.string.preference_recent_firmware_key), "0");
             recentDeviceLocation = sharedPref.getString(getString(R.string.preference_recent_location_key), "yeelight://192.168.1.14:55443");
             recentDeviceModel = sharedPref.getString(getString(R.string.preference_recent_model_key), "color");
 

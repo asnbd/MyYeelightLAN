@@ -22,7 +22,7 @@
         android:roundIcon="@drawable/ic_light_bulb_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyYeelightLAN">
-        <activity android:name=".About"></activity>
+        <activity android:name=".About" />
 
         <receiver android:name=".widgets.LightControlWidget">
             <intent-filter>
