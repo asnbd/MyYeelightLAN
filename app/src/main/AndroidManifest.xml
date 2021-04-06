@@ -32,6 +32,7 @@
                 <action android:name=".widgets.LightControlWidget.ACTION_UPDATE_CLICK_OFF" />
                 <action android:name=".widgets.LightControlWidget.ACTION_UPDATE_CLICK_TOGGLE" />
                 <action android:name=".widgets.LightControlWidget.ACTION_UPDATE_CLICK_BRIGHT" />
+                <action android:name=".widgets.LightControlWidget.ACTION_UPDATE_CLICK_MEDIUM" />
                 <action android:name=".widgets.LightControlWidget.ACTION_UPDATE_CLICK_DIM" />
             </intent-filter>
 

@@ -67,6 +67,25 @@
         android:background="@color/lc_widget_btn_sep" />
 
     <ImageButton
+        android:id="@+id/w_btn_medium"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:background="@color/lc_widget_btn_background"
+        android:tint="@color/lc_widget_btn_icon_tint"
+        android:src="@drawable/ic_baseline_brightness_6_64"
+        android:padding="20dp"
+        android:scaleType="centerInside"/>
+
+    <LinearLayout
+        android:layout_width="@dimen/lc_widget_sep_width"
+        android:layout_height="match_parent"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:background="@color/lc_widget_btn_sep" />
+
+    <ImageButton
         android:id="@+id/w_btn_bright"
         android:layout_width="0dp"
         android:layout_height="match_parent"

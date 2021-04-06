@@ -22,6 +22,7 @@ public class LightControlWidget extends AppWidgetProvider {
     private static final String ACTION_UPDATE_CLICK_OFF = "action.UPDATE_CLICK_OFF";
     private static final String ACTION_UPDATE_CLICK_TOGGLE = "action.UPDATE_CLICK_TOGGLE";
     private static final String ACTION_UPDATE_CLICK_BRIGHT = "action.UPDATE_CLICK_BRIGHT";
+    private static final String ACTION_UPDATE_CLICK_MEDIUM = "action.UPDATE_CLICK_MEDIUM";
     private static final String ACTION_UPDATE_CLICK_DIM = "action.UPDATE_CLICK_DIM";
 
     private void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
@@ -35,6 +36,7 @@ public class LightControlWidget extends AppWidgetProvider {
         views.setOnClickPendingIntent(R.id.w_btn_on, getPendingSelfIntent(context, ACTION_UPDATE_CLICK_ON));
         views.setOnClickPendingIntent(R.id.w_btn_off, getPendingSelfIntent(context, ACTION_UPDATE_CLICK_OFF));
         views.setOnClickPendingIntent(R.id.w_btn_dim, getPendingSelfIntent(context, ACTION_UPDATE_CLICK_DIM));
+        views.setOnClickPendingIntent(R.id.w_btn_medium, getPendingSelfIntent(context, ACTION_UPDATE_CLICK_MEDIUM));
         views.setOnClickPendingIntent(R.id.w_btn_bright, getPendingSelfIntent(context, ACTION_UPDATE_CLICK_BRIGHT));
 
         // Instruct the widget manager to update the widget
@@ -77,6 +79,11 @@ public class LightControlWidget extends AppWidgetProvider {
             case ACTION_UPDATE_CLICK_DIM:
                 Log.d(TAG, "onReceive: DIM CLICKED");
                 new LightControl(context).dim();
+                break;
+
+            case ACTION_UPDATE_CLICK_MEDIUM:
+                Log.d(TAG, "onReceive: MEDIUM CLICKED");
+                new LightControl(context).medium();
                 break;
 
             case ACTION_UPDATE_CLICK_BRIGHT:

@@ -31,6 +31,7 @@ public class LightControl {
     private static final int ACTION_TOGGLE = 2;
     private static final int ACTION_BRIGHT = 3;
     private static final int ACTION_DIM = 4;
+    private static final int ACTION_MEDIUM = 5;
 
     private static final int MSG_CONNECT_SUCCESS = 700;
     private static final int MSG_CONNECT_FAILURE = 701;
@@ -39,6 +40,7 @@ public class LightControl {
     private static final String CMD_OFF = "{\"id\":%id,\"method\":\"set_power\",\"params\":[\"off\",\"smooth\",500]}\r\n" ;
     private static final String CMD_TOGGLE = "{\"id\":%id,\"method\":\"toggle\",\"params\":[]}\r\n" ;
     private static final String CMD_BRIGHT = "{\"id\":%id,\"method\":\"set_bright\",\"params\":[100, \"smooth\", 500]}\r\n";
+    private static final String CMD_MEDIUM = "{\"id\":%id,\"method\":\"set_bright\",\"params\":[50, \"smooth\", 500]}\r\n";
     private static final String CMD_DIM = "{\"id\":%id,\"method\":\"set_bright\",\"params\":[1, \"smooth\", 500]}\r\n";
 
     private final Handler mHandler = new Handler(Looper.getMainLooper()){
@@ -64,6 +66,8 @@ public class LightControl {
     public void toggle(){ connect(ACTION_TOGGLE); }
 
     public void bright(){ connect(ACTION_BRIGHT); }
+
+    public void medium(){ connect(ACTION_MEDIUM); }
 
     public void dim(){ connect(ACTION_DIM); }
 
@@ -119,6 +123,10 @@ public class LightControl {
             case ACTION_BRIGHT:
                 Log.d(TAG, "handleAction: Sending Bright Command");
                 sendCommand(parseCmd(CMD_BRIGHT));
+                break;
+            case ACTION_MEDIUM:
+                Log.d(TAG, "handleAction: Sending Medium Command");
+                sendCommand(parseCmd(CMD_MEDIUM));
                 break;
             case ACTION_DIM:
                 Log.d(TAG, "handleAction: Sending Dim Command");
