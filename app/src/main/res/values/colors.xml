@@ -15,4 +15,5 @@
     <color name="lc_widget_btn_background">#00FFFFFF</color>
     <color name="lc_widget_btn_icon_tint">#FFFFFFFF</color>
     <color name="lc_widget_btn_sep">#35FFFFFF</color>
+    <color name="recent_card_title">#FF000000</color>
 </resources>

@@ -53,7 +53,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Recent Device"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/recent_card_title"/>
 
                 <TextView
                     android:id="@+id/recent_light_location"
