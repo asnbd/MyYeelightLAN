@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -64,6 +65,8 @@ public class ControlActivity extends AppCompatActivity {
     private SeekBar mHue;
     private SeekBar mSaturation;
     private Paint mColor;
+    private TextView mLightTitle;
+    private TextView mLightPower;
     private TextView mBrightnessValue;
     private TextView mCTValue;
     private TextView mHueValue;
@@ -118,6 +121,9 @@ public class ControlActivity extends AppCompatActivity {
         mProgressDialog.setMessage("Connecting...");
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
+
+        mLightTitle = findViewById(R.id.light_title);
+        mLightPower = findViewById(R.id.light_power);
 
         mBrightness = (SeekBar) findViewById(R.id.brightness);
         mHue = (SeekBar) findViewById(R.id.hue);
@@ -299,11 +305,23 @@ public class ControlActivity extends AppCompatActivity {
                                 }
 
                                 if (resultJson.getInt("id") == mPropCmdId) {
+//                                    Log.d(TAG, "run: " + resultJson);
+                                    String power = resultJson.getJSONArray("result").getString(0);
                                     int currBrightness = resultJson.getJSONArray("result").getInt(1);
                                     int currCT = resultJson.getJSONArray("result").getInt(2);
                                     int currColor = resultJson.getJSONArray("result").getInt(3);
                                     int currHue = resultJson.getJSONArray("result").getInt(4);
                                     int currSaturation = resultJson.getJSONArray("result").getInt(5);
+                                    String name = resultJson.getJSONArray("result").getString(6);
+
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            updateName(name);
+                                            updatePower(power);
+                                        }
+                                    });
+
 
                                     updateBrightness(currBrightness);
                                     updateCT(currCT);
@@ -314,7 +332,7 @@ public class ControlActivity extends AppCompatActivity {
                                     Log.d(TAG, "run: Got current prop");
                                 }
                             } catch (Exception e) {
-
+                                Log.d(TAG, "run: " + e);
                             }
 
                         }
@@ -334,6 +352,8 @@ public class ControlActivity extends AppCompatActivity {
     private void updateProps(JSONObject resultJson) {
         try {
             JSONObject params = resultJson.getJSONObject("params");
+            if(params.has("name")){ updateName(params.getString("name")); }
+            if(params.has("power")){ updatePower(params.getString("power")); }
             if(params.has("ct")){ updateCT(params.getInt("ct")); }
             if(params.has("rgb")){ updateColor(params.getInt("rgb")); }
             if(params.has("bright")){ updateBrightness(params.getInt("bright")); }
@@ -344,6 +364,8 @@ public class ControlActivity extends AppCompatActivity {
         }
     }
 
+    private void updateName(String name) { mLightTitle.setText(new String(Base64.decode(name, Base64.DEFAULT))); }
+    private void updatePower(String power) { mLightPower.setText(power.toUpperCase()); }
     private void updateCT(int ct) { mCT.setProgress(ct-1700); }
     private void updateColor(int color) { mColor.setColor(0xFF000000 | color); }
     private void updateBrightness(int brightness) { mBrightness.setProgress(brightness-1); }
