@@ -25,6 +25,12 @@
         <receiver android:name=".widgets.LightControlWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name=".widgets.LightControlWidget.ACTION_UPDATE_CLICK_ON"/>
+                <action android:name=".widgets.LightControlWidget.ACTION_UPDATE_CLICK_OFF"/>
+                <action android:name=".widgets.LightControlWidget.ACTION_UPDATE_CLICK_OFF"/>
+                <action android:name=".widgets.LightControlWidget.ACTION_UPDATE_CLICK_TOGGLE"/>
+                <action android:name=".widgets.LightControlWidget.ACTION_UPDATE_CLICK_BRIGHT"/>
+                <action android:name=".widgets.LightControlWidget.ACTION_UPDATE_CLICK_DIM"/>
             </intent-filter>
 
             <meta-data
