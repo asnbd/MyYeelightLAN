@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="?attr/listPreferredItemHeight"
+    android:paddingStart="?attr/listPreferredItemPaddingStart"
+    android:paddingEnd="?attr/listPreferredItemPaddingEnd"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:layout_gravity="center"
+    android:layout_marginTop="8dp"
+    app:cardCornerRadius="4dp">
+
+<!--    <TextView android:id="@+id/text1"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:textAppearance="?attr/textAppearanceListItem" />-->
+
+<!--    <TextView android:id="@id/text2"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:textAppearance="?attr/textAppearanceListItemSecondary" />-->
+
+<!--    <androidx.cardview.widget.CardView-->
+<!--        android:id="@+id/recent_light_card"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="90dp"-->
+<!--        android:clickable="true"-->
+<!--        android:foreground="?android:attr/selectableItemBackground"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        app:cardCornerRadius="4dp">-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="75dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/yeelight_color"/>
+
+            <LinearLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="#23000000"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/device_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yeelight"
+                    android:textColor="@color/recent_card_title"/>
+
+                <TextView
+                    android:id="@+id/device_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Location: yeelight://192.168.0.2:55443"/>
+
+                <TextView
+                    android:id="@+id/device_model"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Model: white"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+<!--    </androidx.cardview.widget.CardView>-->
+
+</androidx.cardview.widget.CardView>

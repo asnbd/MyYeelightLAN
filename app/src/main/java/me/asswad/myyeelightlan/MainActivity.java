@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -36,7 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "APITEST";
+    private static final String TAG = "MAIN_ACTIVITY";
     private static final int MSG_SHOWLOG = 0;
     private static final int MSG_FOUND_DEVICE = 1;
     private static final int MSG_DISCOVER_FINISH = 2;
@@ -317,7 +318,8 @@ public class MainActivity extends AppCompatActivity {
 
         public MyAdapter(Context context) {
             mLayoutInflater = LayoutInflater.from(context);
-            mLayoutResource = android.R.layout.simple_list_item_2;
+//            mLayoutResource = android.R.layout.simple_list_item_2;
+            mLayoutResource = R.layout.device_list_item;
         }
 
         @Override
@@ -344,11 +346,27 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 view = convertView;
             }
-            TextView textView = (TextView) view.findViewById(android.R.id.text1);
+
+
+            String device_name = "Yeelight";
+
+            try {
+                device_name = new String(Base64.decode(data.get("name"), Base64.DEFAULT));
+            } catch (IllegalArgumentException exception){
+                Log.d(TAG, "getView: " + exception.getMessage());
+                if (!data.get("name").isEmpty()){
+                    device_name = data.get("name");
+                }
+            }
+
+            TextView textTitle = (TextView) view.findViewById(R.id.device_title);
+            textTitle.setText(device_name);
+
+            TextView textView = (TextView) view.findViewById(R.id.device_model);
             textView.setText("Model:" + data.get("model") );
 
             Log.d(TAG, "name = " + textView.getText().toString());
-            TextView textSub = (TextView) view.findViewById(android.R.id.text2);
+            TextView textSub = (TextView) view.findViewById(R.id.device_location);
             textSub.setText("Location:" + data.get("Location"));
             return view;
         }
