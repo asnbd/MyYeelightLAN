@@ -291,6 +291,7 @@ public class ControlActivity extends AppCompatActivity {
 
         editor.putString(getString(R.string.preference_recent_firmware_key), bulbInfo.get("fw_ver"));
         editor.putString(getString(R.string.preference_recent_id_key), bulbInfo.get("id"));
+        editor.putString(getString(R.string.preference_recent_name_key), bulbInfo.get("name"));
         editor.putString(getString(R.string.preference_recent_model_key), bulbInfo.get("model"));
         editor.putString(getString(R.string.preference_recent_location_key), bulbInfo.get("Location"));
         editor.putString(getString(R.string.preference_recent_ip_key), ip);

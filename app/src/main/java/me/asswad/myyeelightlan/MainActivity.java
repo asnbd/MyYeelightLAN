@@ -24,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -57,12 +58,15 @@ public class MainActivity extends AppCompatActivity {
     private MyAdapter mAdapter;
     List<HashMap<String, String>> mDeviceList = new ArrayList<HashMap<String, String>>();
     private TextView mTextView;
+    private TextView mRecentTitleTV;
     private TextView mRecentLocationTV;
     private TextView mRecentModelTV;
+    private LinearLayout mRecentLayout;
     private CardView mRecentCard;
     private ImageButton mBtnSearch;
 
     private String recentDeviceID;
+    private String recentDeviceName;
     private String recentDeviceFirmware;
     private String recentDeviceLocation;
     private String recentDeviceModel;
@@ -107,9 +111,11 @@ public class MainActivity extends AppCompatActivity {
         multicastLock.acquire();
 
         mTextView = (TextView) findViewById(R.id.infotext);
+        mRecentTitleTV = (TextView) findViewById(R.id.recent_light_title);
         mRecentLocationTV = (TextView) findViewById(R.id.recent_light_location);
         mRecentModelTV = (TextView) findViewById(R.id.recent_light_model);
 
+        mRecentLayout = findViewById(R.id.recent_device_layout);
         mRecentCard = (CardView) findViewById(R.id.recent_light_card);
 
         mBtnSearch = findViewById(R.id.btn_search);
@@ -146,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
         mRecentCard.setOnClickListener(v -> {
             HashMap<String, String> bulbInfo = new HashMap<String, String>();
             bulbInfo.put("id", recentDeviceID);
+            bulbInfo.put("name", recentDeviceName);
             bulbInfo.put("fw_ver", recentDeviceFirmware);
             bulbInfo.put("model", recentDeviceModel);
             bulbInfo.put("Location", recentDeviceLocation);
@@ -397,14 +404,27 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.preference_recent_key), Context.MODE_PRIVATE);
         if(sharedPref.contains(getString(R.string.preference_recent_location_key))){
             recentDeviceID = sharedPref.getString(getString(R.string.preference_recent_id_key), "0");
+            recentDeviceName = sharedPref.getString(getString(R.string.preference_recent_name_key), "Yeelight");
             recentDeviceFirmware = sharedPref.getString(getString(R.string.preference_recent_firmware_key), "0");
             recentDeviceLocation = sharedPref.getString(getString(R.string.preference_recent_location_key), "yeelight://192.168.1.14:55443");
             recentDeviceModel = sharedPref.getString(getString(R.string.preference_recent_model_key), "color");
 
+            String device_name = "Yeelight";
+
+            try {
+                device_name = new String(Base64.decode(recentDeviceName, Base64.DEFAULT));
+            } catch (IllegalArgumentException exception){
+                Log.d(TAG, "configDevice: " + exception.getMessage());
+                if (!recentDeviceName.isEmpty()){
+                    device_name = recentDeviceName;
+                }
+            }
+
+            mRecentTitleTV.setText(device_name);
             mRecentLocationTV.setText("Location:" + recentDeviceLocation);
             mRecentModelTV.setText("Model:" + recentDeviceModel);
 
-            mRecentCard.setVisibility(View.VISIBLE);
+            mRecentLayout.setVisibility(View.VISIBLE);
         }
     }
 
