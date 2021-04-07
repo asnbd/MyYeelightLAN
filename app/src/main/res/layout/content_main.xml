@@ -87,6 +87,14 @@
         android:layout_margin="10dp"
         android:layout_weight="1"/>
 
+    <ProgressBar
+        android:id="@+id/device_scan_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?android:attr/progressBarStyleSmall"
+        android:visibility="gone"
+        android:layout_gravity="center"/>
+
 <!--    <LinearLayout-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="1dp"-->

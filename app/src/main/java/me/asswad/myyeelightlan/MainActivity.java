@@ -24,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
     private String recentDeviceLocation;
     private String recentDeviceModel;
 
+    private ProgressBar scanningSpinner;
+
     private Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
@@ -73,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 case MSG_FOUND_DEVICE:
                 case MSG_DISCOVER_FINISH:
                     mAdapter.notifyDataSetChanged();
+                    scanningSpinner.setVisibility(View.GONE);
                     break;
                 case MSG_SHOWLOG:
                     Toast.makeText(MainActivity.this, "" + msg.obj.toString(), Toast.LENGTH_SHORT).show();
@@ -81,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
                     mSearchThread.interrupt();
                     mAdapter.notifyDataSetChanged();
                     mSeraching = false;
+                    scanningSpinner.setVisibility(View.GONE);
                     break;
             }
         }
@@ -105,6 +110,8 @@ public class MainActivity extends AppCompatActivity {
         mRecentCard = (CardView) findViewById(R.id.recent_light_card);
 
         mBtnSearch = (Button) findViewById(R.id.btn_search);
+
+        scanningSpinner = findViewById(R.id.device_scan_progress);
 
         mBtnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Thread mSearchThread = null;
     private void searchDevice() {
+        scanningSpinner.setVisibility(View.VISIBLE);
 
         mDeviceList.clear();
         mAdapter.notifyDataSetChanged();
