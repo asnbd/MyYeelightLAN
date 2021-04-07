@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView mRecentLocationTV;
     private TextView mRecentModelTV;
     private CardView mRecentCard;
-    private Button mBtnSearch;
+    private ImageButton mBtnSearch;
 
     private String recentDeviceID;
     private String recentDeviceFirmware;
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 case MSG_DISCOVER_FINISH:
                     mAdapter.notifyDataSetChanged();
                     scanningSpinner.setVisibility(View.GONE);
+                    mBtnSearch.setVisibility(View.VISIBLE);
                     break;
                 case MSG_SHOWLOG:
                     Toast.makeText(MainActivity.this, "" + msg.obj.toString(), Toast.LENGTH_SHORT).show();
@@ -86,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
                     mAdapter.notifyDataSetChanged();
                     mSeraching = false;
                     scanningSpinner.setVisibility(View.GONE);
+                    mBtnSearch.setVisibility(View.VISIBLE);
                     break;
             }
         }
@@ -109,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
         mRecentCard = (CardView) findViewById(R.id.recent_light_card);
 
-        mBtnSearch = (Button) findViewById(R.id.btn_search);
+        mBtnSearch = findViewById(R.id.btn_search);
 
         scanningSpinner = findViewById(R.id.device_scan_progress);
 
@@ -187,6 +190,7 @@ public class MainActivity extends AppCompatActivity {
     private Thread mSearchThread = null;
     private void searchDevice() {
         scanningSpinner.setVisibility(View.VISIBLE);
+        mBtnSearch.setVisibility(View.GONE);
 
         mDeviceList.clear();
         mAdapter.notifyDataSetChanged();
