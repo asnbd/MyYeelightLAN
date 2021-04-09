@@ -6,24 +6,6 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rounded_corner"
-        android:padding="5dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="7dp"
-        android:layout_marginEnd="7dp">
-
-        <TextView
-            android:id="@+id/infotext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Welcome to My Yeelight LAN Controller!"
-            android:textColor="@color/alert_info_text"
-            android:gravity="center"/>
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/recent_device_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -144,16 +126,5 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="5dp"
         android:layout_weight="1"/>
-
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="1dp"-->
-<!--        android:background="#23000000" />-->
-
-<!--    <TextView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Created by Nomaan"-->
-<!--        android:gravity="center"/>-->
 
 </LinearLayout>
