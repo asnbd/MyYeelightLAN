@@ -16,4 +16,7 @@
     <color name="lc_widget_btn_icon_tint">#FFFFFFFF</color>
     <color name="lc_widget_btn_sep">#35FFFFFF</color>
     <color name="recent_card_title">#FF000000</color>
+    <color name="alert_info_stroke">#b6effb</color>
+    <color name="alert_info_background">#cff4fc</color>
+    <color name="alert_info_text">#055160</color>
 </resources>

@@ -5,13 +5,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/infotext"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corner"
+        android:padding="5dp"
         android:layout_marginTop="10dp"
-        android:text="Welcome to My Yeelight LAN Controller!"
-        android:gravity="center"/>
+        android:layout_marginStart="7dp"
+        android:layout_marginEnd="7dp">
+
+        <TextView
+            android:id="@+id/infotext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Welcome to My Yeelight LAN Controller!"
+            android:textColor="@color/alert_info_text"
+            android:gravity="center"/>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/recent_device_layout"

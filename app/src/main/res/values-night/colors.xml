@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="recent_card_title">#FFFFFF</color>
+    <color name="alert_info_stroke">#bcbebf</color>
+    <color name="alert_info_background">#d3d3d4</color>
+    <color name="alert_info_text">#141619</color>
 </resources>
