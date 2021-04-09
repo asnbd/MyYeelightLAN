@@ -275,6 +275,14 @@ public class MainActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                     Log.d(TAG, "run: Error: " + e.getMessage());
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(MainActivity.this, "Connection failed!'", Toast.LENGTH_SHORT).show();
+                            scanningSpinner.setVisibility(View.GONE);
+                            mBtnSearch.setVisibility(View.VISIBLE);
+                        }
+                    });
                 }
             }
         });
@@ -337,8 +345,16 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }catch (Exception e){
                     e.printStackTrace();
-                }
 
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(MainActivity.this, "Connection failed!'", Toast.LENGTH_SHORT).show();
+                            scanningSpinner.setVisibility(View.GONE);
+                            mBtnSearch.setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
             }
         }).start();
     }
