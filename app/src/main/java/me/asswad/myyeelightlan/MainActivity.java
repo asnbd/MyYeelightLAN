@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -127,7 +128,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 searchDevice();
             }
-
         });
 
         mListView = (ListView) findViewById(R.id.deviceList);
@@ -167,7 +167,32 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        mRecentCard.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("Delete recent device?")
+                        .setMessage("Are you want to delete the recent device?")
+                        .setNeutralButton(android.R.string.cancel, null)
+                        .setPositiveButton(android.R.string.ok, (dialog, which) -> clearRecentDevice())
+                        .show();
+
+                return true;
+            }
+        });
+
         configDevice();
+    }
+
+    private void clearRecentDevice() {
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.preference_recent_key), Context.MODE_PRIVATE);
+        sharedPref.edit().clear().apply();
+
+        mRecentLayout.setVisibility(View.GONE);
+
+        Toast.makeText(this, "Removed from recent device.", Toast.LENGTH_SHORT).show();
+
+        Log.d(TAG, "clearRecentDevice: Cleared Recent Device from Preferences");
     }
 
     @Override
