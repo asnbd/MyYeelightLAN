@@ -4,4 +4,5 @@
     <color name="alert_info_stroke">#bcbebf</color>
     <color name="alert_info_background">#d3d3d4</color>
     <color name="alert_info_text">#141619</color>
+    <color name="primary">#BB86FC</color>
 </resources>
