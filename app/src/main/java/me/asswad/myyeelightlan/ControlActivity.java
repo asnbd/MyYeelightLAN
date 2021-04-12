@@ -46,13 +46,13 @@ public class ControlActivity extends AppCompatActivity {
     private static final int MSG_CONNECT_FAILURE = 1;
     private static final String CMD_TOGGLE = "{\"id\":%id,\"method\":\"toggle\",\"params\":[]}\r\n" ;
     private static final String CMD_GET_PROP = "{\"id\":%id,\"method\":\"get_prop\",\"params\":[\"power\",\"bright\",\"ct\",\"rgb\",\"hue\",\"sat\",\"name\"]}\r\n" ;
-    private static final String CMD_ON = "{\"id\":%id,\"method\":\"set_power\",\"params\":[\"on\",\"smooth\",500]}\r\n" ;
-    private static final String CMD_OFF = "{\"id\":%id,\"method\":\"set_power\",\"params\":[\"off\",\"smooth\",500]}\r\n" ;
-    private static final String CMD_CT = "{\"id\":%id,\"method\":\"set_ct_abx\",\"params\":[%value, \"smooth\", 500]}\r\n";
-    private static final String CMD_HSV = "{\"id\":%id,\"method\":\"set_hsv\",\"params\":[%hue, %saturation, \"smooth\", 500]}\r\n";
-    private static final String CMD_COLOR = "{\"id\":%id,\"method\":\"set_rgb\",\"params\":[%value, \"smooth\", 500]}\r\n";
-    private static final String CMD_BRIGHTNESS = "{\"id\":%id,\"method\":\"set_bright\",\"params\":[%value, \"smooth\", 500]}\r\n";
-    private static final String CMD_BRIGHTNESS_SCENE = "{\"id\":%id,\"method\":\"set_bright\",\"params\":[%value, \"smooth\", 500]}\r\n";
+    private static final String CMD_ON = "{\"id\":%id,\"method\":\"set_power\",\"params\":[\"on\",\"smooth\",%smooth]}\r\n" ;
+    private static final String CMD_OFF = "{\"id\":%id,\"method\":\"set_power\",\"params\":[\"off\",\"smooth\",%smooth]}\r\n" ;
+    private static final String CMD_CT = "{\"id\":%id,\"method\":\"set_ct_abx\",\"params\":[%value, \"smooth\", %smooth]}\r\n";
+    private static final String CMD_HSV = "{\"id\":%id,\"method\":\"set_hsv\",\"params\":[%hue, %saturation, \"smooth\", %smooth]}\r\n";
+    private static final String CMD_COLOR = "{\"id\":%id,\"method\":\"set_rgb\",\"params\":[%value, \"smooth\", %smooth]}\r\n";
+    private static final String CMD_BRIGHTNESS = "{\"id\":%id,\"method\":\"set_bright\",\"params\":[%value, \"smooth\", %smooth]}\r\n";
+    private static final String CMD_BRIGHTNESS_SCENE = "{\"id\":%id,\"method\":\"set_bright\",\"params\":[%value, \"smooth\", %smooth]}\r\n";
     private static final String CMD_COLOR_SCENE = "{\"id\":%id,\"method\":\"set_scene\",\"params\":[\"cf\",1,0,\"100,1,%color,1\"]}\r\n";
 
     private int mPropCmdId=-1;
@@ -60,11 +60,13 @@ public class ControlActivity extends AppCompatActivity {
     private Socket mSocket;
     private String mBulbIP;
     private int mBulbPort;
+    private int mCurrentSmoothnessValue;
     private ProgressDialog mProgressDialog;
     private SeekBar mBrightness;
     private SeekBar mCT;
     private SeekBar mHue;
     private SeekBar mSaturation;
+    private SeekBar mSmoothness;
     private Paint mColor;
     private TextView mLightTitle;
     private TextView mLightPower;
@@ -72,6 +74,7 @@ public class ControlActivity extends AppCompatActivity {
     private TextView mCTValue;
     private TextView mHueValue;
     private TextView mSaturationValue;
+    private TextView mSmoothnessValue;
     private ImageButton mBtnDeviceInfo;
     private Button mBtnOn;
     private Button mBtnOff;
@@ -133,6 +136,7 @@ public class ControlActivity extends AppCompatActivity {
         mHue = (SeekBar) findViewById(R.id.hue);
         mCT = (SeekBar) findViewById(R.id.ct);
         mSaturation = (SeekBar) findViewById(R.id.saturation);
+        mSmoothness = (SeekBar) findViewById(R.id.smoothness);
 
         mColor = new Paint();
 
@@ -140,11 +144,14 @@ public class ControlActivity extends AppCompatActivity {
         mHueValue = (TextView) findViewById(R.id.hue_value);
         mCTValue = (TextView) findViewById(R.id.ct_value);
         mSaturationValue = (TextView) findViewById(R.id.saturation_value);
+        mSmoothnessValue = (TextView) findViewById(R.id.smoothness_value);
 
         mCT.setMax(4800);
         mHue.setMax(359);
         mBrightness.setMax(99);
         mSaturation.setMax(100);
+        mSmoothness.setMax(97);
+        mSmoothness.setProgress(47);
 
         mBrightness.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -161,7 +168,7 @@ public class ControlActivity extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 int brightnessVal = seekBar.getProgress() + 1;
-                write(parseBrightnessCmd(brightnessVal));
+                write(parseBrightnessCmd(brightnessVal, mCurrentSmoothnessValue));
             }
         });
 
@@ -180,7 +187,7 @@ public class ControlActivity extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 int ctVal = seekBar.getProgress() + 1700;
-                write(parseCTCmd(ctVal));
+                write(parseCTCmd(ctVal, mCurrentSmoothnessValue));
             }
         });
 
@@ -201,7 +208,7 @@ public class ControlActivity extends AppCompatActivity {
                 int hueVal = seekBar.getProgress();
                 int saturationVal = Integer.parseInt(mSaturationValue.getText().toString());
 
-                write(parseHSVCmd(hueVal, saturationVal));
+                write(parseHSVCmd(hueVal, saturationVal, mCurrentSmoothnessValue));
             }
         });
 
@@ -222,7 +229,25 @@ public class ControlActivity extends AppCompatActivity {
                 int hueVal = Integer.parseInt(mHueValue.getText().toString());
                 int saturationVal = seekBar.getProgress();
 
-                write(parseHSVCmd(hueVal, saturationVal));
+                write(parseHSVCmd(hueVal, saturationVal, mCurrentSmoothnessValue));
+            }
+        });
+
+        mSmoothness.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                int smoothnessVal = seekBar.getProgress() * 10 + 30;
+                mSmoothnessValue.setText(String.valueOf(smoothnessVal));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                mCurrentSmoothnessValue = seekBar.getProgress() * 10 + 30;
             }
         });
 
@@ -255,14 +280,14 @@ public class ControlActivity extends AppCompatActivity {
         mBtnOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                write(parseSwitch(true));
+                write(parseSwitch(true, mCurrentSmoothnessValue));
             }
         });
 
         mBtnOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                write(parseSwitch(false));
+                write(parseSwitch(false, mCurrentSmoothnessValue));
             }
         });
 
@@ -276,7 +301,7 @@ public class ControlActivity extends AppCompatActivity {
                 new ColorPickerDialog(ControlActivity.this, color -> {
                     int colorDec = 0xFFFFFF & color;
                     mColor.setColor(color);
-                    write(parseColorCmd(colorDec));
+                    write(parseColorCmd(colorDec, mCurrentSmoothnessValue));
                     Log.d(TAG, "colorChanged: " + colorDec);
                 }, mColor.getColor()).show();
             }
@@ -388,6 +413,7 @@ public class ControlActivity extends AppCompatActivity {
             if(params.has("bright")){ updateBrightness(params.getInt("bright")); }
             if(params.has("hue")){ updateHue(params.getInt("hue")); }
             if(params.has("sat")){ updateSaturation(params.getInt("sat")); }
+//            if(params.has("smooth")){ updateSaturation(params.getInt("smooth")); }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -400,6 +426,7 @@ public class ControlActivity extends AppCompatActivity {
     private void updateBrightness(int brightness) { mBrightness.setProgress(brightness-1); }
     private void updateHue(int hue) { mHue.setProgress(hue); }
     private void updateSaturation(int saturation) { mSaturation.setProgress(saturation); }
+    private void updateSmoothness(int smoothness) { mSmoothness.setProgress(smoothness); }
 
     @Override
     protected void onDestroy() {
@@ -413,32 +440,39 @@ public class ControlActivity extends AppCompatActivity {
         }
 
     }
-    private String parseSwitch(boolean on){
+    private String parseSwitch(boolean on, int smoothness){
         String cmd;
         if (on){
-            cmd = CMD_ON.replace("%id", String.valueOf(++mCmdId));
+            cmd = CMD_ON.replace("%id", String.valueOf(++mCmdId)).replace("%smooth", String.valueOf(smoothness));
         }else {
-            cmd = CMD_OFF.replace("%id", String.valueOf(++mCmdId));
+            cmd = CMD_OFF.replace("%id", String.valueOf(++mCmdId)).replace("%smooth", String.valueOf(smoothness));
         }
         return cmd;
     }
 
-    private String parseCTCmd(int ct){
-        return CMD_CT.replace("%id",String.valueOf(++mCmdId)).replace("%value",String.valueOf(ct));
+    private String parseCTCmd(int ct, int smoothness){
+        return CMD_CT.replace("%id",String.valueOf(++mCmdId))
+                .replace("%value",String.valueOf(ct))
+                .replace("%smooth", String.valueOf(smoothness));
     }
 
-    private String parseHSVCmd(int hue, int saturation){
+    private String parseHSVCmd(int hue, int saturation, int smoothness){
         return CMD_HSV.replace("%id",String.valueOf(++mCmdId))
                 .replace("%hue",String.valueOf(hue))
-                .replace("%saturation",String.valueOf(saturation));
+                .replace("%saturation",String.valueOf(saturation))
+                .replace("%smooth", String.valueOf(smoothness));
     }
 
-    private String parseBrightnessCmd(int brightness){
-        return CMD_BRIGHTNESS.replace("%id",String.valueOf(++mCmdId)).replace("%value",String.valueOf(brightness));
+    private String parseBrightnessCmd(int brightness, int smoothness){
+        return CMD_BRIGHTNESS.replace("%id", String.valueOf(++mCmdId))
+                .replace("%value", String.valueOf(brightness))
+                .replace("%smooth", String.valueOf(smoothness));
     }
 
-    private String parseColorCmd(int color){
-        return CMD_COLOR.replace("%id",String.valueOf(++mCmdId)).replace("%value",String.valueOf(color));
+    private String parseColorCmd(int color, int smoothness){
+        return CMD_COLOR.replace("%id",String.valueOf(++mCmdId))
+                .replace("%value",String.valueOf(color))
+                .replace("%smooth", String.valueOf(smoothness));
     }
 
     private String parseGetPropCmd(){
