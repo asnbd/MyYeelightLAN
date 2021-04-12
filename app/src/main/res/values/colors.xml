@@ -19,4 +19,6 @@
     <color name="alert_info_stroke">#b6effb</color>
     <color name="alert_info_background">#cff4fc</color>
     <color name="alert_info_text">#055160</color>
+    <color name="green">#32CB00</color>
+    <color name="red">#FF3D00</color>
 </resources>
