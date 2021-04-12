@@ -9,6 +9,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -429,9 +430,11 @@ public class ControlActivity extends AppCompatActivity {
         mLightPower.setText(power.toUpperCase());
 
         if (power.toUpperCase().contains("ON")){
+            mLightPower.setTextColor(0xFF32CB00);
             mBtnOn.setVisibility(View.GONE);
             mBtnOff.setVisibility(View.VISIBLE);
         } else {
+            mLightPower.setTextColor(Color.GRAY);
             mBtnOn.setVisibility(View.VISIBLE);
             mBtnOff.setVisibility(View.GONE);
         }

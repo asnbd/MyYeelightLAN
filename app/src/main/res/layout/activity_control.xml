@@ -46,7 +46,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:text="ON"/>
+                        android:textColor="@color/red"
+                        android:text="OFF"/>
 
 <!--                    <ImageButton-->
 <!--                        android:id="@+id/device_info_btn"-->
