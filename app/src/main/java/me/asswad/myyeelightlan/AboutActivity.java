@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -29,6 +30,7 @@ public class AboutActivity extends AppCompatActivity {
 
     private final String TAG = "AboutActivity";
     private TextView tv_version;
+    private LinearLayout mDeveloperTextLayout;
     private Button check_update_btn;
 
     @Override
@@ -40,8 +42,8 @@ public class AboutActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         tv_version = findViewById(R.id.app_version);
+        mDeveloperTextLayout = findViewById(R.id.developer_text);
         check_update_btn = findViewById(R.id.check_update_btn);
-
 
         setButtonActions();
         showVersion();
@@ -53,6 +55,10 @@ public class AboutActivity extends AppCompatActivity {
             public void onClick(View v) {
                 checkForUpdates();
             }
+        });
+
+        mDeveloperTextLayout.setOnClickListener( (View v) -> {
+            goToDeveloperGithub();
         });
     }
 
@@ -71,6 +77,13 @@ public class AboutActivity extends AppCompatActivity {
 
     private void goToUpdateUrl(){
         String update_url = "https://github.com/asnbd/MyYeelightLAN/releases/latest";
+        Uri uri = Uri.parse(update_url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
+    }
+
+    private void goToDeveloperGithub(){
+        String update_url = "https://github.com/asnbd/";
         Uri uri = Uri.parse(update_url);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
