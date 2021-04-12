@@ -22,7 +22,7 @@
         android:roundIcon="@drawable/ic_light_bulb_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyYeelightLAN">
-        <activity android:name=".About" />
+
 
         <receiver android:name=".widgets.LightControlWidget">
             <intent-filter>
@@ -44,6 +44,10 @@
         <activity
             android:name=".ControlActivity"
             android:parentActivityName=".MainActivity" />
+
+        <activity android:name=".About"
+            android:parentActivityName=".MainActivity"/>
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

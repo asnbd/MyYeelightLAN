@@ -37,8 +37,8 @@ public class About extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
-        setTitle("About");
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("About");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         tv_version = findViewById(R.id.app_version);
         check_update_btn = findViewById(R.id.check_update_btn);
