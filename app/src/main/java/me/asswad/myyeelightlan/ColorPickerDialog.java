@@ -12,6 +12,7 @@ import android.graphics.SweepGradient;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 
 public class ColorPickerDialog extends Dialog {
 
@@ -40,11 +41,11 @@ public class ColorPickerDialog extends Dialog {
             mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             mPaint.setShader(s);
             mPaint.setStyle(Paint.Style.STROKE);
-            mPaint.setStrokeWidth(32);
+            mPaint.setStrokeWidth(72);
 
             mCenterPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             mCenterPaint.setColor(color);
-            mCenterPaint.setStrokeWidth(5);
+            mCenterPaint.setStrokeWidth(10);
         }
 
         private boolean mTrackingCenter;
@@ -52,7 +53,7 @@ public class ColorPickerDialog extends Dialog {
 
         @Override
         protected void onDraw(Canvas canvas) {
-            float r = CENTER_X - mPaint.getStrokeWidth() * 0.5f;
+            float r = CENTER_X - 60 - mPaint.getStrokeWidth() * 0.5f;
 
             canvas.translate(CENTER_X, CENTER_X);
 
@@ -82,9 +83,9 @@ public class ColorPickerDialog extends Dialog {
             setMeasuredDimension(CENTER_X * 2, CENTER_Y * 2);
         }
 
-        private static final int CENTER_X = 200;
-        private static final int CENTER_Y = 200;
-        private static final int CENTER_RADIUS = 64;
+        private static final int CENTER_X = 320;    //200
+        private static final int CENTER_Y = 320;    //200
+        private static final int CENTER_RADIUS = 82;    //64
 
         private int floatToByte(float x) {
             int n = java.lang.Math.round(x);
@@ -217,7 +218,6 @@ public class ColorPickerDialog extends Dialog {
                 dismiss();
             }
         };
-
         setContentView(new ColorPickerView(getContext(), l, mInitialColor));
         setTitle("Pick a Color");
     }
