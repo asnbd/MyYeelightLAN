@@ -2,7 +2,6 @@ package me.asswad.myyeelightlan;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -33,7 +32,6 @@ import java.net.Socket;
 import java.util.HashMap;
 
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -508,7 +506,7 @@ public class ControlActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.menu_item_about:
 //                Toast.makeText(this, "Developed By Asswad Sarker Nomaan", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(ControlActivity.this, About.class);
+                Intent intent = new Intent(ControlActivity.this, AboutActivity.class);
                 startActivity(intent);
 
                 return true;

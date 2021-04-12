@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,7 +25,7 @@ import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.Charset;
 
-public class About extends AppCompatActivity {
+public class AboutActivity extends AppCompatActivity {
 
     private final String TAG = "AboutActivity";
     private TextView tv_version;
@@ -118,7 +117,7 @@ public class About extends AppCompatActivity {
 
     // Check for updates in background
     public class GetUpdate extends AsyncTask<Void, Void, Void> {
-        private ProgressDialog progressDialog = new ProgressDialog(About.this);
+        private ProgressDialog progressDialog = new ProgressDialog(AboutActivity.this);
         String responseString = "";
 
         String updateUrl = "https://api.github.com/repos/asnbd/MyYeelightLAN/releases/latest";
@@ -167,21 +166,21 @@ public class About extends AppCompatActivity {
                 if(difference < 0){
 //                    Toast.makeText(About.this, "New Version Available", Toast.LENGTH_SHORT).show();
 
-                    new AlertDialog.Builder(About.this)
+                    new AlertDialog.Builder(AboutActivity.this)
                             .setTitle("New Version Available")
                             .setMessage("A new version of the app is available. Do you want to download it now?")
                             .setPositiveButton(android.R.string.ok, (dialog, which) -> goToUpdateUrl())
                             .setNegativeButton(android.R.string.cancel, null)
                             .show();
                 } else {
-                    new AlertDialog.Builder(About.this)
+                    new AlertDialog.Builder(AboutActivity.this)
                             .setTitle("Information")
                             .setMessage("You are already using the latest version.")
                             .setPositiveButton(android.R.string.ok, null)
                             .show();
                 }
             } else {
-                new AlertDialog.Builder(About.this)
+                new AlertDialog.Builder(AboutActivity.this)
                         .setTitle("Failed")
                         .setMessage("Failed checking updates.")
                         .setPositiveButton(android.R.string.ok, null)

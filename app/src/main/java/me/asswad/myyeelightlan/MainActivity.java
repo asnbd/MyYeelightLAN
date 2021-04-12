@@ -23,7 +23,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -207,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.menu_item_about:
 //                Toast.makeText(this, "Developed By Asswad Sarker Nomaan", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MainActivity.this, About.class);
+                Intent intent = new Intent(MainActivity.this, AboutActivity.class);
                 startActivity(intent);
                 return true;
             case R.id.menu_item_exit:
