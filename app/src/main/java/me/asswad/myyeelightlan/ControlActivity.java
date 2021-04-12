@@ -2,6 +2,7 @@ package me.asswad.myyeelightlan;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -32,6 +33,7 @@ import java.net.Socket;
 import java.util.HashMap;
 
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -73,9 +75,9 @@ public class ControlActivity extends AppCompatActivity {
     private TextView mHueValue;
     private TextView mSaturationValue;
     private TextView mSmoothnessValue;
-    private ImageButton mBtnDeviceInfo;
-    private Button mBtnOn;
-    private Button mBtnOff;
+    private CardView mBtnDeviceInfo;
+    private ImageButton mBtnOn;
+    private ImageButton mBtnOff;
     private Button mBtnChangeColor;
     private Button mBtnMusic;
     private BufferedOutputStream mBos;
@@ -149,7 +151,6 @@ public class ControlActivity extends AppCompatActivity {
         mBrightness.setMax(99);
         mSaturation.setMax(100);
         mSmoothness.setMax(97);
-        mSmoothness.setProgress(47);
 
         mBrightness.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -235,6 +236,7 @@ public class ControlActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 int smoothnessVal = seekBar.getProgress() * 10 + 30;
+                mCurrentSmoothnessValue = smoothnessVal;
                 mSmoothnessValue.setText(String.valueOf(smoothnessVal));
             }
 
@@ -245,13 +247,15 @@ public class ControlActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                mCurrentSmoothnessValue = seekBar.getProgress() * 10 + 30;
+
             }
         });
 
+        mSmoothness.setProgress(47);
+
         mBtnDeviceInfo = findViewById(R.id.device_info_btn);
-        mBtnOn = (Button) findViewById(R.id.btn_on);
-        mBtnOff = (Button) findViewById(R.id.btn_off);
+        mBtnOn = findViewById(R.id.btn_on);
+        mBtnOff = findViewById(R.id.btn_off);
         mBtnChangeColor = (Button) findViewById(R.id.btn_color_picker);
 
         mBtnDeviceInfo.setOnClickListener(new View.OnClickListener() {
@@ -353,10 +357,14 @@ public class ControlActivity extends AppCompatActivity {
                                 JSONObject resultJson = new JSONObject(value);
 
                                 if (resultJson.has("method") && resultJson.getString("method").equals("props")) {
-                                    updateProps(resultJson);
+                                    runOnUiThread(() -> {
+                                        updateProps(resultJson);
+                                    });
                                 }
 
-                                if (resultJson.getInt("id") == mPropCmdId) {
+
+
+                                if (resultJson.has("id") && resultJson.getInt("id") == mPropCmdId) {
 //                                    Log.d(TAG, "run: " + resultJson);
                                     String power = resultJson.getJSONArray("result").getString(0);
                                     int currBrightness = resultJson.getJSONArray("result").getInt(1);
@@ -384,7 +392,7 @@ public class ControlActivity extends AppCompatActivity {
                                     Log.d(TAG, "run: Got current prop");
                                 }
                             } catch (Exception e) {
-                                Log.d(TAG, "run: " + e);
+                                Log.d(TAG, "connect() -> Thread -> run: " + e);
                             }
 
                         }
@@ -417,8 +425,19 @@ public class ControlActivity extends AppCompatActivity {
         }
     }
 
+    private void updatePower(String power) {
+        mLightPower.setText(power.toUpperCase());
+
+        if (power.toUpperCase().contains("ON")){
+            mBtnOn.setVisibility(View.GONE);
+            mBtnOff.setVisibility(View.VISIBLE);
+        } else {
+            mBtnOn.setVisibility(View.VISIBLE);
+            mBtnOff.setVisibility(View.GONE);
+        }
+    }
+
     private void updateName(String name) { mLightTitle.setText(new String(Base64.decode(name, Base64.DEFAULT))); }
-    private void updatePower(String power) { mLightPower.setText(power.toUpperCase()); }
     private void updateCT(int ct) { mCT.setProgress(ct-1700); }
     private void updateColor(int color) { mColor.setColor(0xFF000000 | color); }
     private void updateBrightness(int brightness) { mBrightness.setProgress(brightness-1); }

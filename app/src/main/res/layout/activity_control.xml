@@ -5,43 +5,97 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="5dp"
     tools:context=".ControlActivity">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/device_info_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp"
+        app:cardCornerRadius="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/light_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Title"
+                    android:textColor="@color/design_default_color_primary"
+                    android:textSize="25dp" />
+
+                    <TextView
+                        android:id="@+id/light_power"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="ON"/>
+
+<!--                    <ImageButton-->
+<!--                        android:id="@+id/device_info_btn"-->
+<!--                        android:layout_marginLeft="3dp"-->
+<!--                        android:layout_width="18dp"-->
+<!--                        android:layout_height="18dp"-->
+<!--                        android:scaleType="fitCenter"-->
+<!--                        android:layout_gravity="center_vertical"-->
+<!--                        android:background="?android:selectableItemBackground"-->
+<!--                        android:src="@drawable/ic_baseline_info_24"/>-->
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="4dp"
+                android:background="@android:color/darker_gray" />
+
+            <ImageButton
+                android:id="@+id/btn_on"
+                android:layout_height="match_parent"
+                android:layout_width="56dp"
+                android:adjustViewBounds="true"
+                android:padding="3dp"
+                android:scaleType="fitCenter"
+                android:layout_gravity="center_vertical"
+                android:background="?android:selectableItemBackground"
+                android:src="@drawable/ic_baseline_power_off_new_64"/>
+
+            <ImageButton
+                android:id="@+id/btn_off"
+                android:layout_height="match_parent"
+                android:layout_width="56dp"
+                android:adjustViewBounds="true"
+                android:padding="3dp"
+                android:visibility="gone"
+                android:scaleType="fitCenter"
+                android:layout_gravity="center_vertical"
+                android:background="?android:selectableItemBackground"
+                android:src="@drawable/ic_baseline_power_on_new_64"/>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="15dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/light_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Title"
-                android:textColor="@color/design_default_color_primary"
-                android:textSize="25dp" />
-
-            <ImageButton
-                android:id="@+id/device_info_btn"
-                android:layout_marginLeft="5dp"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:scaleType="center"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_baseline_info_24"/>
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/light_power"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ON"
-            android:layout_marginBottom="20dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -234,26 +288,29 @@
                 android:id="@+id/btn_color_picker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Change Color" />
+                android:drawableLeft="@drawable/ic_baseline_color_lens_24"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                android:text="Color" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <Button
-                android:id="@+id/btn_on"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:text="ON" />
+<!--        <LinearLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal">-->
+<!--            <Button-->
+<!--                android:id="@+id/btn_on"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginRight="10dp"-->
+<!--                android:text="ON" />-->
 
-            <Button
-                android:id="@+id/btn_off"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="OFF" />
-        </LinearLayout>
+<!--            <Button-->
+<!--                android:id="@+id/btn_off"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="OFF" />-->
+<!--        </LinearLayout>-->
 
     </LinearLayout>
 
