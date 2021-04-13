@@ -204,9 +204,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
+            case R.id.menu_item_help:
+                Intent intent = new Intent(MainActivity.this, HelpActivity.class);
+                startActivity(intent);
+                return true;
             case R.id.menu_item_about:
 //                Toast.makeText(this, "Developed By Asswad Sarker Nomaan", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+                intent = new Intent(MainActivity.this, AboutActivity.class);
                 startActivity(intent);
                 return true;
             case R.id.menu_item_exit:
