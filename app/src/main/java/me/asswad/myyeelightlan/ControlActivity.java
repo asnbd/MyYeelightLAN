@@ -7,8 +7,11 @@ import androidx.cardview.widget.CardView;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.ConnectivityManager;
@@ -17,14 +20,20 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.InputType;
+import android.text.Spanned;
 import android.util.Base64;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 
 import java.io.BufferedOutputStream;
@@ -41,7 +50,7 @@ import org.json.JSONObject;
 
 public class ControlActivity extends AppCompatActivity {
 
-    private String TAG = "Control";
+    private final String TAG = "Control";
 
     private static final int MSG_CONNECT_SUCCESS = 0;
     private static final int MSG_CONNECT_FAILURE = 1;
@@ -167,8 +176,7 @@ public class ControlActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                int brightnessVal = seekBar.getProgress() + 1;
-                write(parseBrightnessCmd(brightnessVal, mCurrentSmoothnessValue));
+                setBrightness(seekBar.getProgress());
             }
         });
 
@@ -186,8 +194,7 @@ public class ControlActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                int ctVal = seekBar.getProgress() + 1700;
-                write(parseCTCmd(ctVal, mCurrentSmoothnessValue));
+                setColorTemp(seekBar.getProgress());
             }
         });
 
@@ -205,10 +212,9 @@ public class ControlActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                int hueVal = seekBar.getProgress();
                 int saturationVal = Integer.parseInt(mSaturationValue.getText().toString());
 
-                write(parseHSVCmd(hueVal, saturationVal, mCurrentSmoothnessValue));
+                setHueSaturation(seekBar.getProgress(), saturationVal);
             }
         });
 
@@ -227,16 +233,16 @@ public class ControlActivity extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 int hueVal = Integer.parseInt(mHueValue.getText().toString());
-                int saturationVal = seekBar.getProgress();
 
-                write(parseHSVCmd(hueVal, saturationVal, mCurrentSmoothnessValue));
+                setHueSaturation(hueVal, seekBar.getProgress());
             }
         });
 
         mSmoothness.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int smoothnessVal = seekBar.getProgress() * 10 + 30;
+                Log.d(TAG, "onProgressChanged: " + progress);
+                int smoothnessVal = progress * 10 + 30;
                 mCurrentSmoothnessValue = smoothnessVal;
                 mSmoothnessValue.setText(String.valueOf(smoothnessVal));
             }
@@ -258,7 +264,13 @@ public class ControlActivity extends AppCompatActivity {
         mBtnOn = findViewById(R.id.btn_on);
         mBtnOff = findViewById(R.id.btn_off);
         mBtnChangeColor = (Button) findViewById(R.id.btn_color_picker);
+        
+        setOnClickListeners();
 
+        connect();
+    }
+
+    private void setOnClickListeners(){
         mBtnDeviceInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -310,7 +322,170 @@ public class ControlActivity extends AppCompatActivity {
             }
         });
 
-        connect();
+        mBrightnessValue.setOnClickListener( (View v) -> {
+            String val = mBrightnessValue.getText().toString();
+            EditText editText = getEditText(val,"1-100", "1", "100");
+            AlertDialog dialog = showInputAlertDialog("Brightness value", "Enter value between 1-100", editText);
+
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int progress = getDialogValue(dialog, editText, val, "1", "100", mBrightness, -1, 1);
+                    setBrightness(progress);
+                }
+            });
+        });
+
+        mCTValue.setOnClickListener( (View v) -> {
+            String val = mCTValue.getText().toString();
+            EditText editText = getEditText(val,"1700-6500", "1700", "6500");
+            AlertDialog dialog = showInputAlertDialog("Color Temperature value", "Enter value between 1700-6500", editText);
+
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int progress = getDialogValue(dialog, editText, val, "1700", "6500", mCT, -1700, 1);
+                    setColorTemp(progress);
+                }
+            });
+        });
+
+        mSmoothnessValue.setOnClickListener( (View v) -> {
+            String val = mSmoothnessValue.getText().toString();
+            EditText editText = getEditText(val,"30-1000", "30", "1000");
+            AlertDialog dialog = showInputAlertDialog("Smoothness value", "Enter value between 30-1000 ms", editText);
+
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int progress = getDialogValue(dialog, editText, val, "30", "1000", mSmoothness, -3, 10);
+                }
+            });
+        });
+
+        mHueValue.setOnClickListener( (View v) -> {
+            String val = mHueValue.getText().toString();
+            EditText editText = getEditText(val,"0-359", "0", "359");
+            AlertDialog dialog = showInputAlertDialog("Hue value", "Enter value between 0-359", editText);
+
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int progress = getDialogValue(dialog, editText, val, "0", "359", mHue, 0, 1);
+                    int saturationVal = Integer.parseInt(mSaturationValue.getText().toString());
+                    setHueSaturation(progress, saturationVal);
+                }
+            });
+        });
+
+        mSaturationValue.setOnClickListener( (View v) -> {
+            String val = mSaturationValue.getText().toString();
+            EditText editText = getEditText(val,"0-100", "0", "100");
+            AlertDialog dialog = showInputAlertDialog("Saturation value", "Enter value between 0-100", editText);
+
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int progress = getDialogValue(dialog, editText, val, "0", "100", mSaturation, 0, 1);
+                    int hueVal = Integer.parseInt(mHueValue.getText().toString());
+                    setHueSaturation(hueVal, progress);
+                }
+            });
+        });
+    }
+
+    private AlertDialog showInputAlertDialog(String title, String message, EditText input){
+            LinearLayout parentLayout = new LinearLayout(this);
+
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT);
+
+            // call the dimen resource having value in dp: 16dp
+            int left = getPixelValue(20);
+            int top = getPixelValue(0);
+            int right = getPixelValue(20);
+            int bottom = getPixelValue(0);
+
+            // this will set the margins
+            layoutParams.setMargins(left, top, right, bottom);
+
+            input.setLayoutParams(layoutParams);
+            parentLayout.addView(input);
+
+        return new AlertDialog.Builder(ControlActivity.this)
+                    .setTitle(title)
+                    .setMessage(message)
+                    .setView(parentLayout)
+                    .setPositiveButton(android.R.string.ok, null).show();
+    }
+
+    private EditText getEditText(String value, String hint, String min, String max){
+        int minVal = Integer.parseInt(min);
+
+        if (minVal > 1){
+            min = "1";
+        }
+
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        input.setRawInputType(Configuration.KEYBOARD_12KEY);
+        input.setHint(hint);
+        input.setFilters( new InputFilter[]{ new MinMaxFilter(min, max)}) ;
+        input.setText(value);
+
+        return input;
+    }
+
+    private int getDialogValue(AlertDialog dialog, EditText input, String value, String min, String max, SeekBar seekBar, int offset, int mul){
+        int minVal = Integer.parseInt(min);
+        int maxVal = Integer.parseInt(max);
+
+        String inputStr = input.getText().toString();
+
+        if (inputStr.isEmpty()){
+            input.setText(value);
+            return -1;
+        }
+
+        int inputVal = Integer.parseInt(inputStr);
+        int progress = Integer.parseInt(value);
+
+        Log.d(TAG, "onClick: Progress: " + progress);
+
+        if (inputVal < minVal){
+            Log.d(TAG, "onClick: MIN");
+            progress = minVal;
+        } else if (inputVal > maxVal) {
+            Log.d(TAG, "onClick: MAX");
+            progress = maxVal;
+        } else {
+            progress = inputVal;
+        }
+
+        input.setText(String.valueOf(progress));
+
+        int actualProgress = progress/mul + offset;
+
+        Log.d(TAG, "onClick: " + progress);
+
+        seekBar.setProgress(actualProgress);
+
+        dialog.dismiss();
+
+        return progress + offset;
+    }
+
+    private void setBrightness(int value){
+        write(parseBrightnessCmd(value + 1, mCurrentSmoothnessValue));
+    }
+
+    private void setColorTemp(int value){
+        write(parseCTCmd(value + 1700, mCurrentSmoothnessValue));
+    }
+
+    private void setHueSaturation(int hueVal, int satVal){
+        write(parseHSVCmd(hueVal, satVal, mCurrentSmoothnessValue));
     }
 
     private void saveRecentDevice(HashMap<String, String> bulbInfo, String ip, int port) {
@@ -362,8 +537,6 @@ public class ControlActivity extends AppCompatActivity {
                                         updateProps(resultJson);
                                     });
                                 }
-
-
 
                                 if (resultJson.has("id") && resultJson.getInt("id") == mPropCmdId) {
 //                                    Log.d(TAG, "run: " + resultJson);
@@ -460,6 +633,7 @@ public class ControlActivity extends AppCompatActivity {
         }
 
     }
+
     private String parseSwitch(boolean on, int smoothness){
         String cmd;
         if (on){
@@ -537,6 +711,43 @@ public class ControlActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    /* Utils */
+    public static int dpToPx(int dp) {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
+    }
+
+    private int getPixelValue(int dp) {
+        Resources resources = getResources();
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                dp, resources.getDisplayMetrics());
+    }
+
+    public class MinMaxFilter implements InputFilter {
+        private int mIntMin , mIntMax ;
+        public MinMaxFilter ( int minValue , int maxValue) {
+            this . mIntMin = minValue ;
+            this . mIntMax = maxValue ;
+        }
+        public MinMaxFilter (String minValue , String maxValue) {
+            this . mIntMin = Integer. parseInt (minValue) ;
+            this . mIntMax = Integer. parseInt (maxValue) ;
+        }
+        @Override
+        public CharSequence filter (CharSequence source , int start , int end , Spanned dest , int dstart , int dend) {
+            try {
+                int input = Integer. parseInt (dest.toString() + source.toString()) ;
+                if (isInRange( mIntMin , mIntMax , input))
+                    return null;
+            } catch (NumberFormatException e) {
+                e.printStackTrace() ;
+            }
+            return "";
+        }
+        private boolean isInRange ( int a , int b , int c) {
+            return b > a ? c >= a && c <= b : c >= b && c <= a ;
         }
     }
 }
