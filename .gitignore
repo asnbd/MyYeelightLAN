@@ -1,0 +1,24 @@
+# Built application files
+*.apk
+*.aar
+*.ap_
+*.aab
+
+*.iml
+.gradle
+/local.properties
+/app/release
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+/app
+.idea
