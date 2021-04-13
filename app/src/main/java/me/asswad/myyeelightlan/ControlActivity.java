@@ -50,7 +50,7 @@ import org.json.JSONObject;
 
 public class ControlActivity extends AppCompatActivity {
 
-    private final String TAG = "Control";
+    private final String TAG = "ControlActivity";
 
     private static final int MSG_CONNECT_SUCCESS = 0;
     private static final int MSG_CONNECT_FAILURE = 1;
@@ -65,7 +65,7 @@ public class ControlActivity extends AppCompatActivity {
     private static final String CMD_BRIGHTNESS_SCENE = "{\"id\":%id,\"method\":\"set_bright\",\"params\":[%value, \"smooth\", %smooth]}\r\n";
     private static final String CMD_COLOR_SCENE = "{\"id\":%id,\"method\":\"set_scene\",\"params\":[\"cf\",1,0,\"100,1,%color,1\"]}\r\n";
 
-    private int mPropCmdId=-1;
+    private int mPropCmdId = -1;
     private int mCmdId;
     private Socket mSocket;
     private String mBulbIP;
@@ -89,7 +89,6 @@ public class ControlActivity extends AppCompatActivity {
     private ImageButton mBtnOn;
     private ImageButton mBtnOff;
     private Button mBtnChangeColor;
-    private Button mBtnMusic;
     private BufferedOutputStream mBos;
     private BufferedReader mReader;
 
@@ -628,10 +627,9 @@ public class ControlActivity extends AppCompatActivity {
             cmd_run = false;
             if (mSocket!=null)
                 mSocket.close();
-        }catch (Exception e){
-
+        } catch (Exception e){
+            Log.d(TAG, "onDestroy: Error: " + e);
         }
-
     }
 
     private String parseSwitch(boolean on, int smoothness){
