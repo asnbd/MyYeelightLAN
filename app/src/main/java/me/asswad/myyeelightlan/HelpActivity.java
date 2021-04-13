@@ -28,7 +28,7 @@ public class HelpActivity extends AppCompatActivity {
             }
         });
 
-        String url = "https://asnbd.github.io/MyYeelightLan/help.html";
+        String url = "https://asnbd.github.io/MyYeelightLAN/help.html";
         webView.loadUrl(url);
     }
 }
