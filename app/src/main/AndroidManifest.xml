@@ -23,7 +23,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyYeelightLAN">
 
-
         <receiver android:name=".widgets.LightControlWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -44,10 +43,11 @@
         <activity
             android:name=".ControlActivity"
             android:parentActivityName=".MainActivity" />
-
-        <activity android:name=".AboutActivity"
-            android:parentActivityName=".MainActivity"/>
-
+        <activity
+            android:name=".AboutActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".HelpActivity"
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
