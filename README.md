@@ -10,22 +10,31 @@
 
 ## Features
 * Search & Connect to Yeelight Device over LAN
-* Stores recent device in to connect faster
+* Stores recent device to connect faster
 * Control Device Power on/off of Yeelight Device
 * Control Brightness of Yeelight Device
 * Change Color, Color Temperature, Hue, Saturation of Yeelight Device (Supported Models only)
+* Change Smoothness Value
 * Control Power from Quick Settings Tile in Notification Bar
 * Control Power & Brightness from Home Screen Widget
 
 ## Screenshots
-![HomeScreen](screenshots/My-Yeelight-LAN-Screenshot-Home.png "Home Screen")
-![HomeSearch](screenshots/My-Yeelight-LAN-Screenshot-Home-Search.png "Home Screen Search")
-![ControlScreen](screenshots/My-Yeelight-LAN-Screenshot-Control.png "Control Screen")
-![ColorPicker](screenshots/My-Yeelight-LAN-Screenshot-Color-Picker.png "Color Picker")
-![HomeScreenRecent](screenshots/My-Yeelight-LAN-Screenshot-Home-Recent.png "Home Screen Recent")
-![QuickSettings](screenshots/My-Yeelight-LAN-Screenshot-Quick-Settings.png "Quick Settings")
-![WidgetAdd](screenshots/My-Yeelight-LAN-Screenshot-Widget-Add.png "Widget Add")
-![Widget](screenshots/My-Yeelight-LAN-Screenshot-Widget.png "Widget")
+![HomeScreen](screenshots/My-Yeelight-LAN-Screenshot-01-Home.jpg "Home Screen")
+![HomeSearch](screenshots/My-Yeelight-LAN-Screenshot-02-Home-Search.jpg "Home Screen Search")
+![ControlScreen](screenshots/My-Yeelight-LAN-Screenshot-03-Control.jpg "Control Screen")
+![DeviceInfo](screenshots/My-Yeelight-LAN-Screenshot-04-Device-Info.jpg "DeviceInfo")
+![ColorPicker](screenshots/My-Yeelight-LAN-Screenshot-05-Color-Picker.jpg "Color Picker")
+![BrightnessInput](screenshots/My-Yeelight-LAN-Screenshot-06-Brightness-Input.jpg "Brightness Input")
+![HomeScreenRecent](screenshots/My-Yeelight-LAN-Screenshot-07-Home-Recent.jpg "Home Screen Recent")
+![Menu](screenshots/My-Yeelight-LAN-Screenshot-07-Menu.jpg "Menu")
+![DeleteRecent](screenshots/My-Yeelight-LAN-Screenshot-08-Recent-Delete.jpg "Delete Recent Device")
+![Help](screenshots/My-Yeelight-LAN-Screenshot-09-Help.jpg "Help")
+![About](screenshots/My-Yeelight-LAN-Screenshot-10-About.png "About")
+![CheckUpdates](screenshots/My-Yeelight-LAN-Screenshot-11-Check-Updates.jpg "Check Updates")
+![UpdateResult](screenshots/My-Yeelight-LAN-Screenshot-12-Check-Updates-Result.jpg "Update Result")
+![QuickSettings](screenshots/My-Yeelight-LAN-Screenshot-13-Quick-Settings.jpg "Quick Settings")
+![WidgetAdd](screenshots/My-Yeelight-LAN-Screenshot-14-Widget-Add.jpg "Widget Add")
+![Widget](screenshots/My-Yeelight-LAN-Screenshot-15-Widget.png "Widget")
 
 ## License
 ```
