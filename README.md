@@ -1,4 +1,3 @@
-# My Yeelight LAN
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Release](https://img.shields.io/github/release-date/asnbd/MyYeelightLAN?logo=github "Release Date")](../../releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/asnbd/MyYeelightLAN/total?label=downloads&logo=github "Downloads")](../../releases/latest)
