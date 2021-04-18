@@ -105,7 +105,8 @@ public class ControlActivity extends AppCompatActivity {
                     new AlertDialog.Builder(ControlActivity.this)
                             .setTitle("Connection Failed")
                             .setMessage("Please check your Wifi Connectivity.")
-                            .setNeutralButton(android.R.string.ok, (dialog, which) -> finish())
+                            .setCancelable(false)
+                            .setPositiveButton(android.R.string.ok, (dialog, which) -> finish())
                             .show();
 
                     break;
