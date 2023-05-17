@@ -8,7 +8,7 @@
 
 > Latest Release: [Download](https://github.com/asnbd/MyYeelightLAN/releases/latest)
 
-> [Privacy Policy](https://github.com/asnbd/MyYeelightLAN/privacy-policy.html)
+> [Privacy Policy](https://asnbd.github.io/MyYeelightLAN/privacy-policy.html)
 
 ## Features
 
