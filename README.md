@@ -1,23 +1,28 @@
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Release](https://img.shields.io/github/release-date/asnbd/MyYeelightLAN?logo=github "Release Date")](https://github.com/asnbd/MyYeelightLAN/releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/asnbd/MyYeelightLAN/total?label=downloads&logo=github "Downloads")](https://github.com/asnbd/MyYeelightLAN/releases/latest)
+
 > My Yeelight LAN is an App to remote control your Yeelight Device in Local Area Network (LAN) which doesn't require any internet connectivity.
 
 > Developed By: [Asswad Sarker Nomaan](https://www.asswadsarker.me "Asswad Sarker Nomaan")
 
 > Latest Release: [Download](https://github.com/asnbd/MyYeelightLAN/releases/latest)
 
+> [Privacy Policy](https://github.com/asnbd/MyYeelightLAN/privacy-policy.html)
+
 ## Features
-* Search & Connect to Yeelight Device over LAN
-* Stores recent device to connect faster
-* Control Device Power on/off of Yeelight Device
-* Control Brightness of Yeelight Device
-* Change Color, Color Temperature, Hue, Saturation of Yeelight Device (Supported Models only)
-* Change Smoothness Value
-* Control Power from Quick Settings Tile in Notification Bar
-* Control Power & Brightness from Home Screen Widget
+
+- Search & Connect to Yeelight Device over LAN
+- Stores recent device to connect faster
+- Control Device Power on/off of Yeelight Device
+- Control Brightness of Yeelight Device
+- Change Color, Color Temperature, Hue, Saturation of Yeelight Device (Supported Models only)
+- Change Smoothness Value
+- Control Power from Quick Settings Tile in Notification Bar
+- Control Power & Brightness from Home Screen Widget
 
 ## Screenshots
+
 ![HomeScreen](screenshots/My-Yeelight-LAN-Screenshot-01-Home.jpg "Home Screen")
 ![HomeSearch](screenshots/My-Yeelight-LAN-Screenshot-02-Home-Search.jpg "Home Screen Search")
 ![ControlScreen](screenshots/My-Yeelight-LAN-Screenshot-03-Control.jpg "Control Screen")
@@ -36,6 +41,7 @@
 ![Widget](screenshots/My-Yeelight-LAN-Screenshot-15-Widget.png "Widget")
 
 ## License
+
 ```
 Copyright (c) 2020 Asswad Sarker Nomaan
 
