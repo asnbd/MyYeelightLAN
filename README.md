@@ -6,7 +6,11 @@
 
 > Developed By: [Asswad Sarker Nomaan](https://www.asswadsarker.me "Asswad Sarker Nomaan")
 
+> [Privacy Policy](https://asnbd.github.io/MyYeelightLAN/privacy-policy.html)
+
 > Latest Release: [Download](../../releases/latest) 
+
+<a href="https://play.google.com/store/apps/details?id=io.github.asnbd.myyeelightlancontrol"><img src="https://steverichey.github.io/google-play-badge-svg/img/en_get.svg" alt="Get it on Google Play" width="144"/></a>
 
 ## Features
 * Search & Connect to Yeelight Device over LAN
